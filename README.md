@@ -1,2 +1,2 @@
-# MyWallet
+# MyNotes
 *work in progress*
