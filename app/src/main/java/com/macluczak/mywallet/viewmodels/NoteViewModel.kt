@@ -3,8 +3,8 @@ package com.macluczak.mywallet.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.macluczak.mywallet.data.Note
-import com.macluczak.mywallet.data.NoteRepository
+import com.macluczak.mywallet.data.note.Note
+import com.macluczak.mywallet.data.note.NoteRepository
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 
@@ -35,4 +35,6 @@ AndroidViewModel(application){
     fun deleteAllNote(){
         noteRepostitory.deleteAllNotes()
     }
+
+
 }

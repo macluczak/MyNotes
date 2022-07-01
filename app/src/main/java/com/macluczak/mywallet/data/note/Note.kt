@@ -1,7 +1,8 @@
-package com.macluczak.mywallet.data
+package com.macluczak.mywallet.data.note
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.macluczak.mywallet.ui.theme.*
 
 @Entity(tableName = "note_table")
 data class Note(
@@ -12,4 +13,8 @@ data class Note(
 ){
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
+
+    companion object{
+        val taskState = listOf(YellowNote, BlueNote, PurpleNote, GreenNote)
+    }
 }

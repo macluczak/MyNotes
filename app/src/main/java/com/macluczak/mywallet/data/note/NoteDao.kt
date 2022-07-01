@@ -1,4 +1,4 @@
-package com.macluczak.mywallet.data
+package com.macluczak.mywallet.data.note
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

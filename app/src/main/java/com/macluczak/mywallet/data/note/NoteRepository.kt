@@ -1,4 +1,4 @@
-package com.macluczak.mywallet.data
+package com.macluczak.mywallet.data.note
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -9,12 +9,11 @@ class NoteRepository(application: Application) {
     private var noteDao: NoteDao
 
     init {
-        val database = NoteDatabase
-            .getInstance(application.applicationContext)
+        val database = NoteDatabase.getInstance(application.applicationContext)
         noteDao = database!!.noteDao()
     }
 
-    fun insertNote(note:Note): Job =
+    fun insertNote(note: Note): Job =
         CoroutineScope(Dispatchers.IO).launch {
             noteDao.insert(note)
         }
