@@ -48,6 +48,7 @@ class MainActivity : ComponentActivity(){
 
                     if(listNote.isNotEmpty()){
                         DisplayList(notes = listNote, viewModel= viewModel)
+
                     }else{
                         Loading(viewModel = viewModel)
                     }
@@ -68,7 +69,9 @@ fun ListItem(item: Note, viewModel: NoteViewModel){
         .height(60.dp)
         .background(color = Color.LightGray)
         .clickable {
-            viewModel.deleteNote(item)
+//            viewModel.deleteNote(item)
+            val newNote = item.copy(title = "UPDEJCIOR")
+            viewModel.updateNote(newNote)
         }
 
     ){
@@ -108,23 +111,24 @@ fun DisplayList(notes: List<Note>, viewModel: NoteViewModel) {
 
 @Composable
 fun Loading(viewModel: NoteViewModel){
-    Surface(modifier = Modifier.fillMaxSize()
+    Surface(modifier = Modifier
+        .fillMaxSize()
         .clickable {
-            viewModel.insertNote(Note("Note1", "msg", 1,1))
-            viewModel.insertNote(Note("Note2", "msg", 1,1))
-            viewModel.insertNote(Note("Note3", "msg", 1,1))
-            viewModel.insertNote(Note("Note4", "msg", 1,1))
-            viewModel.insertNote(Note("Note5", "msg", 1,1))
-            viewModel.insertNote(Note("Note6", "msg", 1,1))
-            viewModel.insertNote(Note("Note7", "msg", 1,1))
-            viewModel.insertNote(Note("Note8", "msg", 1,1))
-            viewModel.insertNote(Note("Note9", "msg", 1,1))
-            viewModel.insertNote(Note("Note10", "msg", 1,1))
-            viewModel.insertNote(Note("Note11", "msg", 1,1))
-            viewModel.insertNote(Note("Note12", "msg", 1,1))
-            viewModel.insertNote(Note("Note13", "msg", 1,1))
-            viewModel.insertNote(Note("Note14", "msg", 1,1))
-            viewModel.insertNote(Note("Note15", "msg", 1,1))
+            viewModel.insertNote(Note("Note1", "msg", 1, 1))
+            viewModel.insertNote(Note("Note2", "msg", 1, 1))
+            viewModel.insertNote(Note("Note3", "msg", 1, 1))
+            viewModel.insertNote(Note("Note4", "msg", 1, 1))
+            viewModel.insertNote(Note("Note5", "msg", 1, 1))
+            viewModel.insertNote(Note("Note6", "msg", 1, 1))
+            viewModel.insertNote(Note("Note7", "msg", 1, 1))
+            viewModel.insertNote(Note("Note8", "msg", 1, 1))
+            viewModel.insertNote(Note("Note9", "msg", 1, 1))
+            viewModel.insertNote(Note("Note10", "msg", 1, 1))
+            viewModel.insertNote(Note("Note11", "msg", 1, 1))
+            viewModel.insertNote(Note("Note12", "msg", 1, 1))
+            viewModel.insertNote(Note("Note13", "msg", 1, 1))
+            viewModel.insertNote(Note("Note14", "msg", 1, 1))
+            viewModel.insertNote(Note("Note15", "msg", 1, 1))
         },
         color = MaterialTheme.colors.background) {
         Text(modifier = Modifier.fillMaxSize(),
@@ -148,7 +152,7 @@ fun Loading(viewModel: NoteViewModel){
 @Composable
 fun DefaultPreview() {
     MyWalletTheme {
-
+        homeScreen()
 
     }
 }

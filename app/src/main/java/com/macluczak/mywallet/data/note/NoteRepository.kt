@@ -20,7 +20,7 @@ class NoteRepository(application: Application) {
 
     fun updateNote(note: Note): Job =
         CoroutineScope(Dispatchers.IO).launch {
-            noteDao.insert(note)
+            noteDao.update(note)
         }
 
     fun deleteNote(note: Note): Job =
