@@ -39,7 +39,6 @@ class MainActivity : ComponentActivity(){
                     .create(NoteViewModel:: class.java)
 
                 val listNoteLiveData = viewModel.getAllNotes()
-
                 val listNote by listNoteLiveData.observeAsState(initial = emptyList())
 
                 // A surface container using the 'background' color from the theme
@@ -47,12 +46,12 @@ class MainActivity : ComponentActivity(){
                     color = MaterialTheme.colors.background) {
 
                     if(listNote.isNotEmpty()){
-//                        DisplayList(notes = listNote, viewModel= viewModel)
-                        HomeScreen()
+                        DisplayList(notes = listNote, viewModel= viewModel)
+
 
                     }else{
-//                        Loading(viewModel = viewModel)
-                        HomeScreen()
+                        Loading(viewModel = viewModel)
+
                     }
 
 
@@ -71,9 +70,8 @@ fun ListItem(item: Note, viewModel: NoteViewModel){
         .height(60.dp)
         .background(color = Color.LightGray)
         .clickable {
-//            viewModel.deleteNote(item)
-            val newNote = item.copy(title = "UPDEJCIOR")
-            viewModel.updateNote(newNote)
+            viewModel.deleteNote(item)
+
         }
 
     ){
@@ -84,6 +82,10 @@ fun ListItem(item: Note, viewModel: NoteViewModel){
         )
         {
             Text( modifier = Modifier
+                .clickable {
+                    val newNote = item.copy(title = "UPDEJCIOR")
+                    viewModel.updateNote(newNote)
+                }
                 .padding(horizontal = 16.dp)
                 .align(CenterVertically),
                 text = item.title,
