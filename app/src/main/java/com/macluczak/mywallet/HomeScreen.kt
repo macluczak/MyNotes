@@ -1,27 +1,36 @@
 package com.macluczak.mywallet
 
+import android.view.Display
 import android.widget.EditText
 import android.widget.SearchView
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.ui.theme.BlueNote
 import com.macluczak.mywallet.ui.theme.MyWalletTheme
+import com.macluczak.mywallet.viewmodels.NoteViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(viewModel: NoteViewModel) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(BlueNote)
@@ -29,13 +38,14 @@ fun HomeScreen() {
         Column {
 
             Calendar()
+            CardViewHome(viewModel)
 
-            CardViewHome()
 
         }
 
     }
 }
+
 
 @Composable
 fun Calendar() {
@@ -65,7 +75,10 @@ fun Calendar() {
 
 
 @Composable
-fun CardViewHome(){
+fun CardViewHome(viewModel: NoteViewModel){
+
+    val listNoteLiveData = viewModel.getAllNotes()
+    val listNote by listNoteLiveData.observeAsState(initial = emptyList())
 
     Card(modifier = Modifier
         .fillMaxSize()
@@ -74,14 +87,9 @@ fun CardViewHome(){
         elevation = 7.dp
     ){
 
-        Column(modifier = Modifier.padding(vertical = 15.dp)) {
-
+        Column() { 
             SearchView()
-
-            Box(modifier = Modifier
-                .clip(RoundedCornerShape(15.dp))
-                .background(Color.Blue)
-            )
+           DisplayNotes(notes = listNote, viewModel =  viewModel)
 
         }
 
@@ -93,12 +101,70 @@ fun CardViewHome(){
 
 }
 
+@Composable
+fun NoteItem(item: Note){
+    
+    BoxWithConstraints(modifier = Modifier
+        .aspectRatio(1f)
+        .clip(RoundedCornerShape(15.dp))
+        .height(30.dp)
+        .background(BlueNote)
+        .clickable {
+//            viewModel.deleteNote(item)
+
+        }
+
+    ){
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth()
+        )
+        {
+            Text( modifier = Modifier
+                .clickable {
+                    val newNote = item.copy(title = "UPDEJCIOR")
+//                    viewModel.updateNote(newNote)
+                }
+                .padding(horizontal = 16.dp)
+                .align(Alignment.CenterVertically),
+                text = item.title,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        Text( modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .align(Alignment.CenterEnd),
+            text = item.id.toString(),
+            fontSize = 16.sp)
+    }
+    
+}
+
+@Composable
+fun DisplayNotes(notes: List<Note>, viewModel: NoteViewModel){
+
+    LazyRow{
+        items(notes.size){ index ->
+            ListItem(item = notes[index], viewModel = viewModel)
+        }
+    }
+
+
+
+}
+
+
+
 
 @Composable
 fun SearchView(){
     Box(modifier = Modifier
         .fillMaxWidth()
-        .padding(horizontal = 15.dp)){
+
+        .background(Color.Green)
+        .padding(15.dp)){
 
         Box(modifier = Modifier
             .fillMaxWidth()
@@ -123,4 +189,14 @@ fun SearchView(){
 
 }
 
+@Preview()
+@Composable
+fun HomePreview() {
+    MyWalletTheme {
+        
+        NoteItem(item = Note("Note1", "msg", 1, 1))
+        
+
+    }
+}
 

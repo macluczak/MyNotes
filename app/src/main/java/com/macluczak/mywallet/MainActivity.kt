@@ -46,7 +46,8 @@ class MainActivity : ComponentActivity(){
                     color = MaterialTheme.colors.background) {
 
                     if(listNote.isNotEmpty()){
-                        DisplayList(notes = listNote, viewModel= viewModel)
+//                        DisplayList(notes = listNote, viewModel= viewModel)
+                        HomeScreen(viewModel = viewModel)
 
 
                     }else{
@@ -156,7 +157,6 @@ fun Loading(viewModel: NoteViewModel){
 @Composable
 fun DefaultPreview() {
     MyWalletTheme {
-        HomeScreen()
 
     }
 }
