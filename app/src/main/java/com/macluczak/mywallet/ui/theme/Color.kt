@@ -12,6 +12,10 @@ val OrangeProgress = Color(0xFFF5CB82)
 val GreenDone = Color(0xFF5EB660)
 
 val BlueNote = Color(0xFF85A3FC)
+val BlueNoteDark = Color(0xFF5476DD)
+val BlueNoteMedium = Color(0xFF829EF1)
+val BlueNoteLight = Color(0xFF98B2FF)
+
 val PurpleNote = Color(0xFFE4C7FD)
 val YellowNote = Color(0xFFFDF2B7)
 val GreenNote = Color(0xFFB2F0B4)
