@@ -3,6 +3,7 @@ package com.macluczak.mywallet.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.note.NoteRepository
 import com.macluczak.mywallet.data.task.Task
@@ -10,8 +11,15 @@ import com.macluczak.mywallet.data.task.TaskRepository
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 
-class NoteViewModel(application: Application):
+class MainViewModel(application: Application):
 AndroidViewModel(application){
+    val editNote = MutableLiveData<Boolean>()
+
+    init{
+        editNote.value = false
+    }
+
+
 
 
     // NOTE
@@ -66,6 +74,16 @@ AndroidViewModel(application){
     fun deleteAllTasks(){
         taskRepository.deleteAllTasks()
     }
+
+    fun noteEditable(){
+        editNote.value = true
+    }
+
+    fun noteUneditable(){
+        editNote.value = false
+    }
+
+    fun getNoteEdit(): MutableLiveData<Boolean> = editNote
 
 
 }

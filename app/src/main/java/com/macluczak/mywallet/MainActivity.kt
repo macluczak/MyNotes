@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.ui.theme.MyWalletTheme
-import com.macluczak.mywallet.viewmodels.NoteViewModel
+import com.macluczak.mywallet.viewmodels.MainViewModel
 
 class MainActivity : ComponentActivity(){
-    private lateinit var viewModel: NoteViewModel
+    private lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContent {
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity(){
                 viewModel = ViewModelProvider
                     .AndroidViewModelFactory
                     .getInstance(application)
-                    .create(NoteViewModel:: class.java)
+                    .create(MainViewModel:: class.java)
 
                 val listNoteLiveData = viewModel.getAllNotes()
                 val listNote by listNoteLiveData.observeAsState(initial = emptyList())
@@ -62,60 +62,9 @@ class MainActivity : ComponentActivity(){
         }
     }
 }
-@Composable
-fun ListItem(item: Note, viewModel: NoteViewModel){
-
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(4.dp)
-        .height(60.dp)
-        .background(color = Color.LightGray)
-        .clickable {
-            viewModel.deleteNote(item)
-
-        }
-
-    ){
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .fillMaxWidth()
-        )
-        {
-            Text( modifier = Modifier
-                .clickable {
-                    val newNote = item.copy(title = "UPDEJCIOR")
-                    viewModel.updateNote(newNote)
-                }
-                .padding(horizontal = 16.dp)
-                .align(CenterVertically),
-                text = item.title,
-                fontSize = 22.sp,
-                fontWeight = Bold
-            )
-        }
-        Text( modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .align(CenterEnd),
-            text = item.id.toString(),
-            fontSize = 16.sp)
-    }
-}
-
-
 
 @Composable
-fun DisplayList(notes: List<Note>, viewModel: NoteViewModel) {
-
-    LazyColumn{
-        items(notes.size){ index ->
-            ListItem(item = notes[index], viewModel = viewModel)
-        }
-    }
-}
-
-@Composable
-fun Loading(viewModel: NoteViewModel){
+fun Loading(viewModel: MainViewModel){
     Surface(modifier = Modifier
         .fillMaxSize()
         .clickable {

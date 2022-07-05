@@ -13,10 +13,11 @@ data class Task(
     var description: String,
     var state: Int,
     var startDate: Long,
-    var endDate: Long
-) {
+    var endDate: Long,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
+) {
+
 
     companion object{
         val taskState = listOf(RedToDO, OrangeProgress, GreenDone)
