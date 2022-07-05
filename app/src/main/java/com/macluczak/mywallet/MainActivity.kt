@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity(){
 
                     if(listNote.isNotEmpty()){
 //                        DisplayList(notes = listNote, viewModel= viewModel)
-                        HomeScreen(viewModel = viewModel)
+                       Navigation(viewModel = viewModel)
 
 
                     }else{

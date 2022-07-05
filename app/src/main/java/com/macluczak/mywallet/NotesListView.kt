@@ -1,6 +1,7 @@
 package com.macluczak.mywallet
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,9 +18,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.ui.theme.BlueNote
 import com.macluczak.mywallet.ui.theme.BlueNoteLight
@@ -28,7 +31,7 @@ import com.macluczak.mywallet.ui.theme.TransparentRed
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun NoteItem(item: Note, viewModel: MainViewModel) {
+fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController) {
 
     Box(modifier = Modifier
         .padding(15.dp, 0.dp, 0.dp, 0.dp)) {
@@ -43,18 +46,9 @@ fun NoteItem(item: Note, viewModel: MainViewModel) {
             .height(160.dp)
             .aspectRatio(1f)
             .background(BlueNote)
-//            .pointerInput(Unit){
-//                detectTapGestures(onLongPress = {
-
-//                })           }
             .clickable {
+                navController.navigate(Screen.NoteDetail.withArgs(item.id))
 
-                when (visible.value) {
-                    true -> visible.value = false
-                    false -> visible.value = true
-                }
-
-//            viewModel.deleteNote(item)
 
 
             }
@@ -153,7 +147,16 @@ fun NoteItem(item: Note, viewModel: MainViewModel) {
                     .clickable {
                         viewModel.deleteNote(item)
                     }
-                )
+                ){
+                    
+                    Image(painter = painterResource(id = R.drawable.ic_baseline_delete_outline_24),
+                        contentDescription = "Delete",
+                    modifier = Modifier
+                        .size(64.dp, 64.dp)
+                        .align(Alignment.Center))
+                    
+                    
+                }
             }
         }
 
@@ -164,11 +167,11 @@ fun NoteItem(item: Note, viewModel: MainViewModel) {
 }
 
 @Composable
-fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel) {
+fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: NavController) {
 
     LazyRow {
         items(notes.size) { index ->
-            NoteItem(item = notes[index], viewModel = viewModel)
+            NoteItem(item = notes[index], viewModel = viewModel, navController = navController)
         }
     }
 

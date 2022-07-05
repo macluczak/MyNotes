@@ -25,13 +25,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun HomeScreen(viewModel: MainViewModel) {
+fun HomeScreen(viewModel: MainViewModel, navController: NavController) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(BlueNote)
@@ -39,7 +40,7 @@ fun HomeScreen(viewModel: MainViewModel) {
         Column {
 
             Calendar()
-            CardViewHome(viewModel)
+            CardViewHome(viewModel = viewModel, navController = navController)
 
 
         }
@@ -75,7 +76,7 @@ fun Calendar() {
 
 
 @Composable
-fun CardViewHome(viewModel: MainViewModel) {
+fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
     val listNoteLiveData = viewModel.getAllNotes()
     val listNote by listNoteLiveData.observeAsState(initial = emptyList())
@@ -128,7 +129,7 @@ fun CardViewHome(viewModel: MainViewModel) {
             }
 
 
-            DisplayNotes(notes = listNote, viewModel = viewModel)
+            DisplayNotes(notes = listNote, viewModel = viewModel, navController = navController)
             DisplayTasks(tasks = listTask, viewModel = viewModel)
 
         }
