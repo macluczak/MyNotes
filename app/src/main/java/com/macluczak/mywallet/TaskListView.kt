@@ -14,11 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun TaskItem(item: Task){
+fun TaskItem(item: Task, navController: NavController){
 
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -27,8 +28,7 @@ fun TaskItem(item: Task){
         .clip(RoundedCornerShape(5.dp))
         .background(color = Color.LightGray)
         .clickable {
-//            viewModel.deleteNote(item)
-
+            navController.navigate(Screen.TaskDetail.withArgs(item.id))
         }
 
     ){
@@ -60,12 +60,12 @@ fun TaskItem(item: Task){
 }
 
 @Composable
-fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel){
+fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel, navController: NavController){
 
     LazyColumn(modifier = Modifier
         .padding(0.dp, 15.dp, 0.dp, 0.dp)){
         items(tasks.size) { index ->
-            TaskItem(item = tasks[index])
+            TaskItem(item = tasks[index], navController = navController)
         }
     }
 }

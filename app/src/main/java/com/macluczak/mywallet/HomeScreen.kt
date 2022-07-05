@@ -130,7 +130,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
 
             DisplayNotes(notes = listNote, viewModel = viewModel, navController = navController)
-            DisplayTasks(tasks = listTask, viewModel = viewModel)
+            DisplayTasks(tasks = listTask, viewModel = viewModel, navController = navController)
 
         }
 

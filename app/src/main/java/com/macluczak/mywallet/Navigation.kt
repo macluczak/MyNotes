@@ -29,5 +29,17 @@ fun Navigation(viewModel: MainViewModel){
 
 
         }
+        composable(route = Screen.TaskDetail.route + "/{id}", arguments = listOf(
+            navArgument("id"){
+                type = NavType.IntType
+                defaultValue = 0
+                nullable = false
+            }
+        )){
+                entry ->
+            TaskDetails(id = entry.arguments!!.getInt("id"))
+
+
+        }
     }
 }
