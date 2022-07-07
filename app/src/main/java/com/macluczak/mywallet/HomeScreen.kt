@@ -103,7 +103,9 @@ fun BottomMenuItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.clickable {
+        modifier = Modifier
+            .clip(RoundedCornerShape(10.dp))
+            .clickable {
             onItemClick()
         }
     ) {
