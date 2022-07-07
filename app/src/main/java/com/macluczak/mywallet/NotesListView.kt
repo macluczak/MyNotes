@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -100,7 +101,8 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
             }
 
             Canvas(modifier = Modifier
-                .fillMaxSize()) {
+                .fillMaxSize()
+                .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp)) {
 
                 drawPath(path = mediumTonePath,
                     color = BlueNoteMedium)
@@ -116,14 +118,11 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
                 modifier = Modifier
                     .padding(5.dp, 5.dp, 15.dp, 15.dp)
                     .fillMaxWidth()
+
             )
             {
                 Text(modifier = Modifier
-
-                    .clickable {
-                        val newNote = item.copy(title = "UPDEJCIOR")
-//                    viewModel.updateNote(newNote)
-                    }
+                    .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp)
                     .padding(horizontal = 15.dp)
                     .align(Alignment.CenterVertically),
                     text = item.title,
@@ -134,7 +133,8 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
             }
             Text(modifier = Modifier
                 .padding(15.dp, 15.dp, 10.dp, 10.dp)
-                .align(Alignment.BottomEnd),
+                .align(Alignment.BottomEnd)
+                .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp),
                 text = item.id.toString(),
                 fontSize = 16.sp,
                 color = Color.White)
@@ -153,6 +153,7 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
                     modifier = Modifier
                         .size(64.dp, 64.dp)
                         .align(Alignment.Center))
+
                     
                     
                 }
@@ -189,6 +190,7 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
             Box(modifier = Modifier
                 .height(160.dp)
                 .width(15.dp)
+
                 ){
 
             }
