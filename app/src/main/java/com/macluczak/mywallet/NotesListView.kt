@@ -50,7 +50,6 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
                 navController.navigate(Screen.NoteDetail.withArgs(item.id))
 
 
-
             }
 
         ) {
@@ -169,9 +168,21 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
 @Composable
 fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: NavController) {
 
+    var searchByWord = viewModel.searchWord.observeAsState()
+
+    var notesFiltered = notes.filter {
+        it.title.contains(searchByWord.value?: "")
+    }
+
+
     LazyRow {
-        items(notes.size) { index ->
-            NoteItem(item = notes[index], viewModel = viewModel, navController = navController)
+        items(notesFiltered.size) { index ->
+            if(notesFiltered.isNotEmpty()) {
+                NoteItem(item = notesFiltered[index],
+                    viewModel = viewModel,
+                    navController = navController)
+            }
+
         }
     }
 

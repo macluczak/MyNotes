@@ -14,9 +14,11 @@ import kotlinx.coroutines.runBlocking
 class MainViewModel(application: Application):
 AndroidViewModel(application){
     val editNote = MutableLiveData<Boolean>()
+    val searchWord = MutableLiveData<String>()
 
     init{
         editNote.value = false
+        searchWord.value = ""
     }
 
 

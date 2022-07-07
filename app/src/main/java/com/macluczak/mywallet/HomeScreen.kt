@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -94,8 +95,9 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
         Column() {
 
             var editNoteText = remember { mutableStateOf("Edit") }
+            var searchWord = remember{ mutableStateOf("")}
 
-            SearchView()
+            SearchView(viewModel = viewModel)
 
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -141,7 +143,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 }
 
 @Composable
-fun SearchView() {
+fun SearchView(viewModel: MainViewModel) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .padding(15.dp, 15.dp, 15.dp, 15.dp)) {
@@ -153,12 +155,17 @@ fun SearchView() {
         ) {
 
             var mText by remember { mutableStateOf("") }
+
             TextField(value = mText,
-                onValueChange = { mText = it },
+                onValueChange = {
+                    mText = it
+                    viewModel.searchWord.value = it
+                },
                 label = { Text("Search...") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)
+
             )
 
         }

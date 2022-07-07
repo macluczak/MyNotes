@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.macluczak.mywallet.data.note.Note
+import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.MyWalletTheme
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
@@ -46,6 +47,9 @@ class MainActivity : ComponentActivity(){
                     color = MaterialTheme.colors.background) {
 
                     if(listNote.isNotEmpty()){
+//                        viewModel.insertTask(Task("Zadanie 1","task", 1, 1, 1))
+//                        viewModel.insertTask(Task("Dom 2","task", 1, 1, 1))
+
 //                        DisplayList(notes = listNote, viewModel= viewModel)
                        Navigation(viewModel = viewModel)
 
