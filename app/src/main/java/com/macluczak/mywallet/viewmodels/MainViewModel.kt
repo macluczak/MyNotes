@@ -10,18 +10,46 @@ import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.data.task.TaskRepository
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainViewModel(application: Application):
 AndroidViewModel(application){
     val editNote = MutableLiveData<Boolean>()
+    val markAsDone = MutableLiveData<Boolean>()
     val searchWord = MutableLiveData<String>()
+    lateinit var nowMonth: String
+    val listOfDay = ArrayList<String>()
+    val listofWeek = ArrayList<String>()
+
 
     init{
         editNote.value = false
+        markAsDone.value = false
         searchWord.value = ""
+        initCurrentDay()
+           }
+
+    fun initCurrentDay(){
+
+        val sdfrM = SimpleDateFormat("MMMM")
+        val sdfrD = SimpleDateFormat("dd")
+        val sdfrW = SimpleDateFormat("EEE")
+
+        val cM: Calendar = GregorianCalendar()
+        cM.add(Calendar.MONTH, -0)
+        nowMonth =  sdfrM.format(cM.time).toString()
+
+        for(i in (-3).. 3){
+            val cD: Calendar = GregorianCalendar()
+            cD.add(Calendar.DAY_OF_MONTH, i)
+            listOfDay.add(sdfrD.format(cD.time).toString())
+            listofWeek.add(sdfrW.format(cD.time).toString())
+
+        }
+
     }
-
-
 
 
     // NOTE
@@ -85,7 +113,17 @@ AndroidViewModel(application){
         editNote.value = false
     }
 
+    fun asDone(){
+        markAsDone.value = true
+    }
+
+    fun asDoneCancel(){
+        markAsDone.value = false
+    }
+
     fun getNoteEdit(): MutableLiveData<Boolean> = editNote
+
+    fun getMarkTask(): MutableLiveData<Boolean> = markAsDone
 
 
 }

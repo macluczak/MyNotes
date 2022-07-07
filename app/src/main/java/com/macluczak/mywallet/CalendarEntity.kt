@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import java.time.Month
 
 @Composable
-fun CalendarEntity(month: String, days: List<Int>, daysName: List<String>){
+fun CalendarEntity(month: String, days: List<String>, daysName: List<String>){
 
     Row(modifier = Modifier
         .fillMaxWidth()

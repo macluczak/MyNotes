@@ -12,15 +12,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun TaskItem(item: Task, navController: NavController){
+fun TaskItem(item: Task, viewModel: MainViewModel, navController: NavController) {
 
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -32,14 +34,24 @@ fun TaskItem(item: Task, navController: NavController){
             navController.navigate(Screen.TaskDetail.withArgs(item.id))
         }
 
-    ){
+    ) {
         Row(
             modifier = Modifier
                 .padding(horizontal = 8.dp)
                 .fillMaxWidth()
         )
         {
-            Text( modifier = Modifier
+
+            if (viewModel.markAsDone.value == true){
+                Box(modifier = Modifier
+                    .aspectRatio(1f)
+                    .fillMaxHeight()
+                    .background(Color.Green)
+
+                )
+
+            }
+            Text(modifier = Modifier
                 .clickable {
                     val newNote = item.copy(title = "UPDEJCIOR")
 //                    viewModel.updateNote(newNote)
@@ -50,8 +62,10 @@ fun TaskItem(item: Task, navController: NavController){
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
+
+
         }
-        Text( modifier = Modifier
+        Text(modifier = Modifier
             .padding(horizontal = 16.dp)
             .align(Alignment.CenterEnd),
             text = item.id.toString(),
@@ -61,22 +75,32 @@ fun TaskItem(item: Task, navController: NavController){
 }
 
 @Composable
-fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel, navController: NavController){
+fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel, navController: NavController) {
 
     var searchByWord = viewModel.searchWord.observeAsState()
 
     var tasksFiltered = tasks.filter {
-        it.title.contains(searchByWord.value?: "")
+        it.title.contains(searchByWord.value ?: "")
     }
 
     LazyColumn(modifier = Modifier
-        .padding(0.dp, 15.dp, 0.dp, 0.dp)){
+        .padding(0.dp, 0.dp, 0.dp, 0.dp)) {
 
         items(tasksFiltered.size) { index ->
-            if(tasksFiltered.isNotEmpty()){
-                TaskItem(item = tasksFiltered[index], navController = navController)
+            if (tasksFiltered.isNotEmpty()) {
+                TaskItem(item = tasksFiltered[index],
+                    viewModel = viewModel,
+                    navController = navController)
             }
 
+        }
+        item {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(15.dp)
+            ) {
+
+            }
         }
     }
 }

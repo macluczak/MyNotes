@@ -175,7 +175,8 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
     }
 
 
-    LazyRow {
+    LazyRow(modifier = Modifier
+        .padding(0.dp,0.dp, 0.dp, 0.dp)){
         items(notesFiltered.size) { index ->
             if(notesFiltered.isNotEmpty()) {
                 NoteItem(item = notesFiltered[index],
@@ -183,6 +184,14 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
                     navController = navController)
             }
 
+        }
+        item{
+            Box(modifier = Modifier
+                .height(160.dp)
+                .width(15.dp)
+                ){
+
+            }
         }
     }
 

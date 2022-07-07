@@ -1,5 +1,6 @@
 package com.macluczak.mywallet
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +41,7 @@ fun HomeScreen(viewModel: MainViewModel, navController: NavController) {
     ) {
         Column {
 
-            Calendar()
+            Calendar(viewModel = viewModel)
             CardViewHome(viewModel = viewModel, navController = navController)
 
 
@@ -51,10 +52,11 @@ fun HomeScreen(viewModel: MainViewModel, navController: NavController) {
 
 
 @Composable
-fun Calendar() {
-    var month = "September"
-    var days = listOf(4, 5, 6, 7, 8, 9, 10)
-    var daysName = listOf("Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun")
+fun Calendar(viewModel: MainViewModel) {
+    var month = viewModel.nowMonth
+    var days = viewModel.listOfDay
+    Log.d("Days", days.toString())
+    var daysName = viewModel.listofWeek
 
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -94,8 +96,13 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
         Column() {
 
-            var editNoteText = remember { mutableStateOf("Edit") }
-            var searchWord = remember{ mutableStateOf("")}
+            val editNoteText = remember { mutableStateOf("Edit") }
+
+
+            if(viewModel.getNoteEdit().value == true){
+                editNoteText.value = "Cancel"
+            }
+
 
             SearchView(viewModel = viewModel)
 
@@ -132,6 +139,43 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
 
             DisplayNotes(notes = listNote, viewModel = viewModel, navController = navController)
+
+            val markTaskText = remember { mutableStateOf("Mark as Done") }
+            if(viewModel.getMarkTask().value == true){
+                markTaskText.value = "Cancel"
+            }
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp, 15.dp, 15.dp, 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(text = "In Progress",
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
+                    style = MaterialTheme.typography.h6
+                )
+
+                Text(text = markTaskText.value,
+                    style = MaterialTheme.typography.body1,
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier
+                        .align(Alignment.Bottom)
+                        .clickable {
+
+                            if (viewModel.markAsDone.value == false) {
+                                viewModel.asDone()
+                                markTaskText.value = "Cancel"
+
+                            } else {
+                                viewModel.asDoneCancel()
+                                markTaskText.value = "Mark as Done"
+                            }
+
+                        }
+
+                )
+            }
+
             DisplayTasks(tasks = listTask, viewModel = viewModel, navController = navController)
 
         }
