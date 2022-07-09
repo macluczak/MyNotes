@@ -1,21 +1,53 @@
 package com.macluczak.mywallet.bottom_menu
 
+import android.graphics.drawable.PaintDrawable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.macluczak.mywallet.R
 import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.ui.theme.BlueNote
+import com.macluczak.mywallet.ui.theme.BlueNoteDark
+
+@Composable
+fun fab() {
+    Box(modifier = Modifier
+        .size(58.dp)
+        .clip(RoundedCornerShape(50.dp))
+        .background(BlueNote)
+
+        .clickable {
+
+        }
+
+        .padding(5.dp)
+
+
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_add_24),
+            contentDescription = "fab",
+            modifier = Modifier.fillMaxSize(),
+            tint= Color.White
+        )
+    }
+
+}
 
 
 @Composable
@@ -27,18 +59,18 @@ fun BottomMenu(
     activeIconColor: Color = Color.White,
     inactiveTextColor: Color = Color.LightGray,
     initialSelectedItemIndex: Int = 0,
-    navController: NavController
+    navController: NavController,
 ) {
     var selectedItemIndex by remember {
         mutableStateOf(initialSelectedItemIndex)
     }
     Row(
-        horizontalArrangement = Arrangement.SpaceAround,
+        horizontalArrangement = Arrangement.spacedBy(15.dp),
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.White)
-            .padding(15.dp)
+            .background(Color.Transparent)
+            .padding(30.dp, 0.dp, 80.dp, 0.dp)
     ) {
         items.forEachIndexed { index, item ->
             BottomMenuItem(
@@ -46,7 +78,7 @@ fun BottomMenu(
                 isSelected = index == selectedItemIndex,
                 activeHighlightColor = activeHighlightColor,
                 activeTextColor = activeTextColor,
-                activeIconColor= activeIconColor,
+                activeIconColor = activeIconColor,
                 inactiveTextColor = inactiveTextColor,
                 navController = navController
             ) {
@@ -65,7 +97,7 @@ fun BottomMenuItem(
     activeIconColor: Color = Color.White,
     inactiveTextColor: Color = Color.LightGray,
     navController: NavController,
-    onItemClick: () -> Unit
+    onItemClick: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -73,11 +105,14 @@ fun BottomMenuItem(
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
             .clickable {
-                if(navController.currentDestination?.route !=  item.route){
-                    when(item.route){
+                if (navController.currentDestination?.route != item.route) {
+
+                    navController.popBackStack(navController.currentDestination?.route!!, true)
+                    when (item.route) {
                         "second_page" -> navController.navigate(Screen.SecondPage.withArgs())
                         "home_screen" -> navController.navigate(Screen.HomeScreen.withArgs())
                     }
+
                 }
 
 
@@ -89,18 +124,18 @@ fun BottomMenuItem(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .background(if (isSelected) activeHighlightColor else Color.Transparent)
-                .padding(10.dp)
+                .padding(5.dp)
         ) {
             Icon(
                 painter = painterResource(id = item.iconId),
                 contentDescription = item.title,
                 tint = if (isSelected) activeIconColor else inactiveTextColor,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(26.dp)
             )
         }
-        Text(
-            text = item.title,
-            color = if(isSelected) activeTextColor else inactiveTextColor
-        )
+//        Text(
+//            text = item.title,
+//            color = if (isSelected) activeTextColor else inactiveTextColor
+//        )
     }
 }
