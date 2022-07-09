@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -12,13 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.HorizontalAlignmentLine
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.data.task.Task
+import com.macluczak.mywallet.ui.theme.GreenDone
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
@@ -39,18 +41,10 @@ fun TaskItem(item: Task, viewModel: MainViewModel, navController: NavController)
             modifier = Modifier
                 .padding(horizontal = 8.dp)
                 .fillMaxWidth()
+                ,Arrangement.SpaceBetween
         )
         {
 
-            if (viewModel.markAsDone.value == true){
-                Box(modifier = Modifier
-                    .aspectRatio(1f)
-                    .fillMaxHeight()
-                    .background(Color.Green)
-
-                )
-
-            }
             Text(modifier = Modifier
                 .clickable {
                     val newNote = item.copy(title = "UPDEJCIOR")
@@ -64,12 +58,29 @@ fun TaskItem(item: Task, viewModel: MainViewModel, navController: NavController)
             )
 
 
+            if (viewModel.markAsDone.value == true){
+                Box(modifier = Modifier
+                    .aspectRatio(1f)
+                    .fillMaxHeight()
+                    .background(GreenDone)
+
+                ){
+                    Icon(painter = painterResource(id = R.drawable.ic_baseline_check_24), contentDescription = "Done",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.Center)
+                        , tint = Color.White)
+                }
+
+            }
+
+
         }
-        Text(modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .align(Alignment.CenterEnd),
-            text = item.id.toString(),
-            fontSize = 16.sp)
+//        Text(modifier = Modifier
+//            .padding(horizontal = 16.dp)
+//            .align(Alignment.CenterEnd),
+//            text = item.id.toString(),
+//            fontSize = 16.sp)
     }
 
 }
