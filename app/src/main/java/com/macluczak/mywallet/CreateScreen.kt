@@ -187,10 +187,13 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "Start of Task")
-                            Row(){
+                            Text(text = "Start")
+                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)){
                                 ShowDatePicker(context = LocalContext.current)
-                                ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0)
+                                if(!dayCheckBox.value){
+                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0)
+                                }
+
 
                             }
 
@@ -201,14 +204,18 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "End of Task")
-                            Row(){
+                            Text(text = "End")
+                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)){
                                 ShowDatePicker(context = LocalContext.current)
-                                ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0)
+                                if(!dayCheckBox.value){
+                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0)
+                                }
+
 
                             }
 
                         }
+
 
                     }
 
@@ -227,6 +234,8 @@ fun ShowDatePicker(context: Context) {
     val mYear: Int
     val mMonth: Int
     val mDay: Int
+    val formatter = SimpleDateFormat("dd/MM/yyyy")
+    var date: Date
 
     val mCalendar = Calendar.getInstance()
 
@@ -241,7 +250,8 @@ fun ShowDatePicker(context: Context) {
     val mDatePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            mDate.value = "$mDayOfMonth/${mMonth+1}/$mYear"
+
+            mDate.value = SimpleDateFormat("dd/MM/yyyy",  Locale.getDefault()).format(formatter.parse("$mDayOfMonth/${mMonth+1}/$mYear")!!)
         }, mYear, mMonth, mDay
     )
 
