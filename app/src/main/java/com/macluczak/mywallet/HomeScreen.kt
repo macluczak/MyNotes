@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -16,25 +17,67 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.macluczak.mywallet.bottom_menu.BottomMenu
+import com.macluczak.mywallet.bottom_menu.BottomMenuContent
+import com.macluczak.mywallet.bottom_menu.fab
+import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
+
 fun HomeScreen(viewModel: MainViewModel, navController: NavController) {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(BlueNote)
-    ) {
-        Column {
 
-            Calendar(viewModel = viewModel)
-            CardViewHome(viewModel = viewModel, navController = navController)
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            if(navController.currentDestination?.route != Screen.CreateScreen.route){
 
+                BottomAppBar(
+                    cutoutShape = MaterialTheme.shapes.small.copy(
+                        CornerSize(percent = 50)
+                    ),
+                    backgroundColor = BlueNoteDark
+                ) {
+
+
+                    BottomMenu(items = listOf(
+                        BottomMenuContent("Home", "home_screen", R.drawable.ic_baseline_home_24),
+                        BottomMenuContent("List", "second_page", R.drawable.ic_baseline_list_24)
+                    ), navController = navController)
+
+                }
+
+            }
+
+        },
+        isFloatingActionButtonDocked = true,
+        floatingActionButton = {
+            if(navController.currentDestination?.route != Screen.CreateScreen.route) {
+                fab(viewModel = viewModel, navController = navController)
+            }
+
+
+//            FloatingActionButton(onClick = {navController.navigate(Screen.CreateScreen.withArgs())}) {
+//
+//            }
+
+
+        })
+    {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(BlueNote)
+        ) {
+            Column {
+
+                Calendar(viewModel = viewModel)
+                CardViewHome(viewModel = viewModel, navController = navController)
+
+
+            }
 
 
         }
-
-
     }
 }
 

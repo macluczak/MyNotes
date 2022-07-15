@@ -8,6 +8,7 @@ import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.note.NoteRepository
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.data.task.TaskRepository
+import com.macluczak.mywallet.navigation.Screen
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
@@ -19,6 +20,7 @@ AndroidViewModel(application){
     val editNote = MutableLiveData<Boolean>()
     val markAsDone = MutableLiveData<Boolean>()
     val searchWord = MutableLiveData<String>()
+    val routeState = MutableLiveData<String>()
     lateinit var nowMonth: String
     val listOfDay = ArrayList<String>()
     val listofWeek = ArrayList<String>()
@@ -27,6 +29,7 @@ AndroidViewModel(application){
     init{
         editNote.value = false
         markAsDone.value = false
+        routeState.value = Screen.HomeScreen.route
         searchWord.value = ""
         initCurrentDay()
            }

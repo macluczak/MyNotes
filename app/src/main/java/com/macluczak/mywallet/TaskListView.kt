@@ -108,10 +108,11 @@ fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel, navController: Nav
         item {
             Box(modifier = Modifier
                 .fillMaxWidth()
-                .height(15.dp)
+                .height(100.dp)
             ) {
 
             }
+
         }
     }
 }

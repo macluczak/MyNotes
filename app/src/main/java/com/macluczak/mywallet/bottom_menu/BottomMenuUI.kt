@@ -5,10 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,29 +25,27 @@ import com.macluczak.mywallet.R
 import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.ui.theme.BlueNote
 import com.macluczak.mywallet.ui.theme.BlueNoteDark
+import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun fab() {
-    Box(modifier = Modifier
-        .size(58.dp)
-        .clip(RoundedCornerShape(50.dp))
-        .background(BlueNote)
+fun fab(viewModel: MainViewModel, navController: NavController) {
 
-        .clickable {
+        FloatingActionButton(
+            onClick = {
+                viewModel.routeState.value = Screen.CreateScreen.route
+                navController.navigate(Screen.CreateScreen.withArgs()) },
+            backgroundColor = BlueNote
 
+
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                contentDescription = "fab",
+                modifier = Modifier
+                    .size(30.dp),
+                tint = Color.White
+            )
         }
-
-        .padding(5.dp)
-
-
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_add_24),
-            contentDescription = "fab",
-            modifier = Modifier.fillMaxSize(),
-            tint= Color.White
-        )
-    }
 
 }
 
@@ -63,6 +63,10 @@ fun BottomMenu(
 ) {
     var selectedItemIndex by remember {
         mutableStateOf(initialSelectedItemIndex)
+    }
+    when(navController.currentDestination?.route){
+        Screen.HomeScreen.route -> selectedItemIndex = 0
+        Screen.SecondPage.route -> selectedItemIndex = 1
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -130,7 +134,7 @@ fun BottomMenuItem(
                 painter = painterResource(id = item.iconId),
                 contentDescription = item.title,
                 tint = if (isSelected) activeIconColor else inactiveTextColor,
-                modifier = Modifier.size(26.dp)
+                modifier = Modifier.size(30.dp)
             )
         }
 //        Text(
