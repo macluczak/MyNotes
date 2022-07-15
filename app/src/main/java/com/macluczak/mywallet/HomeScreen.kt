@@ -42,7 +42,8 @@ fun HomeScreen(viewModel: MainViewModel, navController: NavController) {
 
                     BottomMenu(items = listOf(
                         BottomMenuContent("Home", "home_screen", R.drawable.ic_baseline_home_24),
-                        BottomMenuContent("List", "second_page", R.drawable.ic_baseline_list_24)
+                        BottomMenuContent("List", "second_page", R.drawable.ic_baseline_list_24),
+                        BottomMenuContent("Notes", "third_page", R.drawable.ic_baseline_widgets_24)
                     ), navController = navController)
 
                 }
@@ -217,6 +218,8 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
 
 }
+
+
 
 @Composable
 fun SearchView(viewModel: MainViewModel) {

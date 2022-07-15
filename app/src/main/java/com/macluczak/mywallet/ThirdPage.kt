@@ -17,12 +17,10 @@ import com.macluczak.mywallet.ui.theme.BlueNoteDark
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun SecondPage(viewModel: MainViewModel, navController: NavController){
-
+fun ThirdPage(viewModel: MainViewModel, navController: NavController){
     Scaffold(modifier = Modifier.fillMaxSize(),
         bottomBar = {
             if(navController.currentDestination?.route != Screen.CreateScreen.route){
-
                 BottomAppBar(
                     cutoutShape = MaterialTheme.shapes.small.copy(
                         CornerSize(percent = 50)
@@ -55,8 +53,9 @@ fun SecondPage(viewModel: MainViewModel, navController: NavController){
 
 
         })
-        {
+    {
 
-            Text(text = "second page")
-        }
+        Text(text = "Third page")
+    }
+
 }

@@ -5,6 +5,7 @@ sealed class Screen (val route: String){
     object NoteDetail: Screen("note_detail")
     object TaskDetail: Screen("task_detail")
     object SecondPage: Screen("second_page")
+    object ThirdPage: Screen("third_page")
     object CreateScreen: Screen("create_screen")
 
 

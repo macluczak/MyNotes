@@ -56,8 +56,13 @@ fun Navigation(viewModel: MainViewModel) {
             composable(route = Screen.SecondPage.route) {
                 SecondPage(viewModel = viewModel, navController = navController)
             }
+
             composable(route = Screen.CreateScreen.route) {
                 CreateScreen(viewModel = viewModel, navController = navController)
+            }
+
+            composable(route = Screen.ThirdPage.route){
+                ThirdPage(viewModel, navController = navController)
             }
         }
 

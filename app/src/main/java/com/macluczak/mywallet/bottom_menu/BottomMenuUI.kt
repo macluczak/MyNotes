@@ -67,6 +67,7 @@ fun BottomMenu(
     when(navController.currentDestination?.route){
         Screen.HomeScreen.route -> selectedItemIndex = 0
         Screen.SecondPage.route -> selectedItemIndex = 1
+        Screen.ThirdPage.route -> selectedItemIndex = 2
     }
     Row(
         horizontalArrangement = Arrangement.spacedBy(15.dp),
@@ -115,6 +116,7 @@ fun BottomMenuItem(
                     when (item.route) {
                         "second_page" -> navController.navigate(Screen.SecondPage.withArgs())
                         "home_screen" -> navController.navigate(Screen.HomeScreen.withArgs())
+                        "third_page" -> navController.navigate(Screen.ThirdPage.withArgs())
                     }
 
                 }
