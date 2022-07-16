@@ -49,7 +49,7 @@ fun Navigation(viewModel: MainViewModel) {
                     nullable = false
                 }
             )) { entry ->
-                TaskDetails(id = entry.arguments!!.getInt("id"))
+                TaskDetails(id = entry.arguments!!.getInt("id"), viewModel= viewModel)
 
 
             }

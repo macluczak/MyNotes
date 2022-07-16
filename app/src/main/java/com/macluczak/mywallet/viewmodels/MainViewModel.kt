@@ -104,6 +104,7 @@ AndroidViewModel(application){
     fun getAllTasks(): LiveData<List<Task>> = runBlocking{
         allTasks.await()
     }
+
     fun deleteAllTasks(){
         taskRepository.deleteAllTasks()
     }

@@ -12,8 +12,11 @@ data class Task(
     var title: String,
     var description: String,
     var state: Int,
-    var startDate: Long,
-    var endDate: Long,
+    var startDate: String,
+    var endDate: String,
+    var startTime: String,
+    var endTime: String,
+    var wholeDay: Boolean,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 ) {

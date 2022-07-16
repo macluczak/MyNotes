@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.macluczak.mywallet.data.note.NoteDatabase
 
-@Database(entities = [Task::class], version = 1)
+@Database(entities = [Task::class], version = 3)
 abstract class TaskDatabase: RoomDatabase() {
 
     abstract fun taskDao():  TaskDao

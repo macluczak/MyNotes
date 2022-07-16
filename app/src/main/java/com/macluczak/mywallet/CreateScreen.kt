@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.macluczak.mywallet.Calendar
 import com.macluczak.mywallet.bottom_menu.fab
+import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.BlueNote
 import com.macluczak.mywallet.ui.theme.BlueNoteDark
 import com.macluczak.mywallet.ui.theme.BlueNoteLight
@@ -43,6 +44,18 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
         mutableStateOf("")
     }
     var createDescription by remember {
+        mutableStateOf("")
+    }
+    var startDate by remember {
+        mutableStateOf("")
+    }
+    var endDate by remember {
+        mutableStateOf("")
+    }
+    var startTime by remember {
+        mutableStateOf("")
+    }
+    var endTime by remember {
         mutableStateOf("")
     }
     val taskState = remember {
@@ -66,7 +79,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                 .fillMaxWidth()
                 .padding(15.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .clickable { }
+                .clickable {
+                    if(createType.value == 0){
+                        viewModel.insertTask(Task(createTitle, createDescription, taskState.value,
+                            startDate, endDate, startTime, endTime, dayCheckBox.value))
+                    }
+                }
                 .background(BlueNote)) {
                 Text(text = "Create", color = Color.White,
                     modifier = Modifier
@@ -189,9 +207,14 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             horizontalArrangement = Arrangement.SpaceBetween) {
                             Text(text = "Start")
                             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)){
-                                ShowDatePicker(context = LocalContext.current)
+                                ShowDatePicker(context = LocalContext.current){
+                                    startDate = it
+
+                                }
                                 if(!dayCheckBox.value){
-                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0)
+                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0){
+                                        startTime = it
+                                    }
                                 }
 
 
@@ -206,9 +229,13 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             horizontalArrangement = Arrangement.SpaceBetween) {
                             Text(text = "End")
                             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)){
-                                ShowDatePicker(context = LocalContext.current)
+                                ShowDatePicker(context = LocalContext.current){
+                                    endDate = it
+                                }
                                 if(!dayCheckBox.value){
-                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0)
+                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0){
+                                        endDate = it
+                                    }
                                 }
 
 
@@ -230,12 +257,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
 }
 @Composable
-fun ShowDatePicker(context: Context) {
+fun ShowDatePicker(context: Context, onSet: (String) -> Unit) {
     val mYear: Int
     val mMonth: Int
     val mDay: Int
     val formatter = SimpleDateFormat("dd/MM/yyyy")
-    var date: Date
+
 
     val mCalendar = Calendar.getInstance()
 
@@ -250,8 +277,8 @@ fun ShowDatePicker(context: Context) {
     val mDatePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-
             mDate.value = SimpleDateFormat("dd/MM/yyyy",  Locale.getDefault()).format(formatter.parse("$mDayOfMonth/${mMonth+1}/$mYear")!!)
+            onSet(mDate.value)
         }, mYear, mMonth, mDay
     )
 
@@ -267,7 +294,7 @@ fun ShowDatePicker(context: Context) {
 
 
 @Composable
-fun ShowTimePicker(context: Context, initHour: Int, initMinute: Int) {
+fun ShowTimePicker(context: Context, initHour: Int, initMinute: Int, onSet: (String) -> Unit) {
     val time = remember { mutableStateOf("12:00") }
     val timePickerDialog = TimePickerDialog(
         context,
@@ -276,6 +303,7 @@ fun ShowTimePicker(context: Context, initHour: Int, initMinute: Int) {
                 0 -> time.value = "$hour:00"
                 else -> time.value = "$hour:$minute"
             }
+            onSet(time.value)
 
         }, initHour, initMinute, false
     )
