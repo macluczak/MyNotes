@@ -38,7 +38,7 @@ fun Navigation(viewModel: MainViewModel) {
                     nullable = false
                 }
             )) { entry ->
-                NoteDetails(id = entry.arguments!!.getInt("id"))
+                NoteDetails(id = entry.arguments!!.getInt("id"), viewModel = viewModel)
 
 
             }
