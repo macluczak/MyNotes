@@ -23,6 +23,6 @@ data class Task(
 
 
     companion object{
-        val taskState = listOf(RedToDO, OrangeProgress, GreenDone)
+        val taskState = listOf("To Do", "In Progress", "Done", "All")
     }
 }

@@ -1,17 +1,17 @@
 package com.macluczak.mywallet
 
-import android.app.Activity
+
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.inputmethodservice.Keyboard
+
 import android.widget.DatePicker
-import android.widget.RadioGroup
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -20,12 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.textInputServiceFactory
-import androidx.compose.ui.text.style.TextAlign
+
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.macluczak.mywallet.Calendar
-import com.macluczak.mywallet.bottom_menu.fab
+
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.*
@@ -55,7 +53,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     var startTime by remember {
         mutableStateOf("")
     }
-    var endTime by remember {
+    val endTime by remember {
         mutableStateOf("")
     }
     val taskState = remember {
@@ -89,7 +87,9 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             startDate, endDate, startTime, endTime, dayCheckBox.value))
                     }
                     if (createType.value == 1) {
-                        viewModel.insertNote(Note(createTitle, createDescription,colorChoose.value))
+                        viewModel.insertNote(Note(createTitle,
+                            createDescription,
+                            colorChoose.value))
                     }
                 }
                 .background(BlueNote)) {
@@ -466,10 +466,11 @@ fun ChooseType(onClick: (Int) -> Unit) {
 
 
 @Composable
-fun chooseTaskState(onClick: (Int) -> Unit) {
+fun chooseTaskState(unCheck: Boolean = false, onClick: (Int) -> Unit) {
     val checkType = listOf("to do", "in progress", "done")
+    val initVal = if(unCheck) 3 else 0
     val selectIndexType = remember {
-        mutableStateOf(0)
+        mutableStateOf(initVal)
     }
     LazyRow(modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround,
@@ -480,8 +481,14 @@ fun chooseTaskState(onClick: (Int) -> Unit) {
                     .padding(0.dp, 0.dp, 0.dp, 0.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .clickable {
-                        selectIndexType.value = it
-                        onClick(it)
+                        if (selectIndexType.value == it && unCheck) {
+                            selectIndexType.value = 3
+                            onClick( selectIndexType.value)
+
+                        } else {
+                            selectIndexType.value = it
+                            onClick(it)
+                        }
                     }
                     .background(if (selectIndexType.value == it) BlueNote else Color.White),
             ) {
