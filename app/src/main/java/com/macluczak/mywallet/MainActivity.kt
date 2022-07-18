@@ -46,22 +46,24 @@ class MainActivity : ComponentActivity(){
                 Surface(modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background) {
 
-                    if(listNote.isNotEmpty()){
-//                        viewModel.insertTask(Task("Task 1","task", 1, 1, 1))
-//                        viewModel.insertTask(Task("Task 2","task", 1, 1, 1))
-//                        viewModel.insertTask(Task("Zadanie 3","task", 1, 1, 1))
-//                        viewModel.insertTask(Task("Dom 4","task", 1, 1, 1))
-//                        viewModel.insertTask(Task("Szkoła 1","task", 1, 1, 1))
-//                        viewModel.insertTask(Task("Obiad 2","task", 1, 1, 1))
+                    Navigation(viewModel = viewModel)
 
-//                        DisplayList(notes = listNote, viewModel= viewModel)
-                       Navigation(viewModel = viewModel)
-
-
-                    }else{
-                        Loading(viewModel = viewModel)
-
-                    }
+//                    if(listNote.isNotEmpty()){
+////                        viewModel.insertTask(Task("Task 1","task", 1, 1, 1))
+////                        viewModel.insertTask(Task("Task 2","task", 1, 1, 1))
+////                        viewModel.insertTask(Task("Zadanie 3","task", 1, 1, 1))
+////                        viewModel.insertTask(Task("Dom 4","task", 1, 1, 1))
+////                        viewModel.insertTask(Task("Szkoła 1","task", 1, 1, 1))
+////                        viewModel.insertTask(Task("Obiad 2","task", 1, 1, 1))
+//
+////                        DisplayList(notes = listNote, viewModel= viewModel)
+//                       Navigation(viewModel = viewModel)
+//
+//
+//                    }else{
+//                        Loading(viewModel = viewModel)
+//
+//                    }
 
 
 
@@ -76,21 +78,7 @@ fun Loading(viewModel: MainViewModel){
     Surface(modifier = Modifier
         .fillMaxSize()
         .clickable {
-            viewModel.insertNote(Note("Note1", "msg", 1, 1))
-            viewModel.insertNote(Note("Note2", "msg", 1, 1))
-            viewModel.insertNote(Note("Note3", "msg", 1, 1))
-            viewModel.insertNote(Note("Note4", "msg", 1, 1))
-            viewModel.insertNote(Note("Note5", "msg", 1, 1))
-            viewModel.insertNote(Note("Note6", "msg", 1, 1))
-            viewModel.insertNote(Note("Note7", "msg", 1, 1))
-            viewModel.insertNote(Note("Note8", "msg", 1, 1))
-            viewModel.insertNote(Note("Note9", "msg", 1, 1))
-            viewModel.insertNote(Note("Note10", "msg", 1, 1))
-            viewModel.insertNote(Note("Note11", "msg", 1, 1))
-            viewModel.insertNote(Note("Note12", "msg", 1, 1))
-            viewModel.insertNote(Note("Note13", "msg", 1, 1))
-            viewModel.insertNote(Note("Note14", "msg", 1, 1))
-            viewModel.insertNote(Note("Note15", "msg", 1, 1))
+
         },
         color = MaterialTheme.colors.background) {
         Text(modifier = Modifier.fillMaxSize(),

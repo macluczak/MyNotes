@@ -25,6 +25,7 @@ import com.macluczak.mywallet.R
 import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.ui.theme.BlueNote
 import com.macluczak.mywallet.ui.theme.BlueNoteDark
+import com.macluczak.mywallet.ui.theme.BlueNoteDeep
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
@@ -57,7 +58,7 @@ fun BottomMenu(
     activeHighlightColor: Color = BlueNote,
     activeTextColor: Color = BlueNote,
     activeIconColor: Color = Color.White,
-    inactiveTextColor: Color = Color.LightGray,
+    inactiveTextColor: Color = BlueNoteDeep,
     initialSelectedItemIndex: Int = 0,
     navController: NavController,
 ) {

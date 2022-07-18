@@ -8,7 +8,6 @@ import com.macluczak.mywallet.ui.theme.*
 data class Note(
     var title: String,
     var message: String,
-    var time: Int,
     var color: Int,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -17,6 +16,6 @@ data class Note(
 
 
     companion object{
-        val taskState = listOf(YellowNote, BlueNote, PurpleNote, GreenNote)
+        val colorOfNote = listOf(BlueNote, YellowNote, PurpleNote, GreenNote)
     }
 }

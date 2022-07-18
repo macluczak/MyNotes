@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -25,10 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.macluczak.mywallet.Calendar
 import com.macluczak.mywallet.bottom_menu.fab
+import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
-import com.macluczak.mywallet.ui.theme.BlueNote
-import com.macluczak.mywallet.ui.theme.BlueNoteDark
-import com.macluczak.mywallet.ui.theme.BlueNoteLight
+import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -64,11 +64,15 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     val dayCheckBox = remember {
         mutableStateOf(false)
     }
+    val colorChoose = remember {
+        mutableStateOf(0)
+    }
 
     when (createType.value) {
         0 -> headerString = "Task"
         1 -> headerString = "Note"
     }
+
 
 
 
@@ -80,9 +84,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                 .padding(15.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
-                    if(createType.value == 0){
+                    if (createType.value == 0) {
                         viewModel.insertTask(Task(createTitle, createDescription, taskState.value,
                             startDate, endDate, startTime, endTime, dayCheckBox.value))
+                    }
+                    if (createType.value == 1) {
+                        viewModel.insertNote(Note(createTitle, createDescription,colorChoose.value))
                     }
                 }
                 .background(BlueNote)) {
@@ -97,7 +104,10 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
     ) {
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(0.dp, 0.dp, 0.dp, 55.dp)
+        ) {
 
             Text(text = "Create ${headerString}",
                 style = MaterialTheme.typography.h6,
@@ -109,12 +119,11 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
             }
 
             if (createType.value == 0) {
+
                 chooseTaskState() {
                     taskState.value = it
                 }
-            }
 
-            if (createType.value == 0) {
 
                 Box(modifier = Modifier
                     .padding(15.dp, 10.dp, 15.dp, 10.dp)
@@ -177,9 +186,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                     }
 
                 }
-            }
 
-            if (createType.value == 0) {
                 Box(modifier = Modifier
                     .padding(15.dp, 0.dp, 15.dp, 10.dp)
                     .clip(RoundedCornerShape(10.dp))
@@ -206,13 +213,15 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween) {
                             Text(text = "Start")
-                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)){
-                                ShowDatePicker(context = LocalContext.current){
+                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                ShowDatePicker(context = LocalContext.current) {
                                     startDate = it
 
                                 }
-                                if(!dayCheckBox.value){
-                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0){
+                                if (!dayCheckBox.value) {
+                                    ShowTimePicker(context = LocalContext.current,
+                                        initHour = 12,
+                                        initMinute = 0) {
                                         startTime = it
                                     }
                                 }
@@ -228,12 +237,14 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween) {
                             Text(text = "End")
-                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)){
-                                ShowDatePicker(context = LocalContext.current){
+                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                ShowDatePicker(context = LocalContext.current) {
                                     endDate = it
                                 }
-                                if(!dayCheckBox.value){
-                                    ShowTimePicker(context = LocalContext.current, initHour = 12, initMinute = 0){
+                                if (!dayCheckBox.value) {
+                                    ShowTimePicker(context = LocalContext.current,
+                                        initHour = 12,
+                                        initMinute = 0) {
                                         endDate = it
                                     }
                                 }
@@ -248,14 +259,119 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                 }
             }
+            if (createType.value == 1) {
+
+                Column(modifier = Modifier.fillMaxSize()) {
+                    ColorPicker() {
+                        colorChoose.value = it
+                    }
+
+
+                    Box(modifier = Modifier
+                        .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Note.colorOfNote[colorChoose.value])) {
+
+                        Column() {
+                            TextField(value = createTitle,
+                                onValueChange = {
+                                    createTitle = it
+
+                                },
+                                maxLines = 1,
+                                singleLine = true,
+
+
+                                label = { Text("Title") },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = Color.Transparent,
+                                    focusedIndicatorColor = BlueNote,
+                                    unfocusedIndicatorColor = Color.LightGray,
+                                    cursorColor = Color.Black,
+                                    textColor = Color.Black),
+
+
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(56.dp)
+                                    .padding(15.dp, 0.dp, 15.dp, 0.dp)
+                            )
+
+                            TextField(value = createDescription,
+                                onValueChange = {
+                                    createDescription = it
+
+                                },
+                                maxLines = 8,
+
+
+                                label = { Text("Note") },
+                                colors = TextFieldDefaults.textFieldColors(
+                                    backgroundColor = Color.Transparent,
+                                    focusedIndicatorColor = BlueNote,
+                                    unfocusedIndicatorColor = Color.LightGray,
+                                    cursorColor = Color.Black,
+                                    textColor = Color.Black),
+
+
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .height(190.dp)
+                                    .padding(15.dp, 0.dp, 15.dp, 0.dp)
+
+
+                            )
+
+
+                        }
+
+                    }
+
+                }
+
+
+            }
 
 
         }
 
     }
 
+}
+
+@Composable
+fun ColorPicker(onClick: (Int) -> Unit) {
+//    val colors = listOf(YellowNote, BlueNote, PurpleNote, GreenNote)
+    val selectIndexColor = remember {
+        mutableStateOf(0)
+    }
+
+
+    LazyRow(Modifier.fillMaxWidth()) {
+        items(Note.colorOfNote.size) {
+
+            Box(modifier = Modifier
+                .padding(15.dp, 10.dp, 0.dp, 10.dp)
+                .clip(RoundedCornerShape(25.dp))
+                .clickable {
+                    selectIndexColor.value = it
+                    onClick(it)
+                }
+                .background(Note.colorOfNote[it])) {
+
+                Text(text = if (selectIndexColor.value == it) " . " else "   ",
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(15.dp, 10.dp, 15.dp, 10.dp))
+
+            }
+
+        }
+
+    }
 
 }
+
 @Composable
 fun ShowDatePicker(context: Context, onSet: (String) -> Unit) {
     val mYear: Int
@@ -272,23 +388,28 @@ fun ShowDatePicker(context: Context, onSet: (String) -> Unit) {
 
     mCalendar.time = Date()
 
-    val mDate = remember { mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()).toString()) }
+    val mDate = remember {
+        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+            .toString())
+    }
 
     val mDatePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, mYear: Int, mMonth: Int, mDayOfMonth: Int ->
-            mDate.value = SimpleDateFormat("dd/MM/yyyy",  Locale.getDefault()).format(formatter.parse("$mDayOfMonth/${mMonth+1}/$mYear")!!)
+            mDate.value = SimpleDateFormat("dd/MM/yyyy",
+                Locale.getDefault()).format(formatter.parse("$mDayOfMonth/${mMonth + 1}/$mYear")!!)
             onSet(mDate.value)
         }, mYear, mMonth, mDay
     )
 
-        Button(onClick = {
+    Button(
+        onClick = {
             mDatePickerDialog.show()
         },
 //            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0XFF0F9D58))
-        ) {
-            Text(text = "${mDate.value}", color = Color.White)
-        }
+    ) {
+        Text(text = "${mDate.value}", color = Color.White)
+    }
 
 }
 
@@ -299,7 +420,7 @@ fun ShowTimePicker(context: Context, initHour: Int, initMinute: Int, onSet: (Str
     val timePickerDialog = TimePickerDialog(
         context,
         { _, hour: Int, minute: Int ->
-            when(minute){
+            when (minute) {
                 0 -> time.value = "$hour:00"
                 else -> time.value = "$hour:$minute"
             }
