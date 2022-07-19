@@ -9,6 +9,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
@@ -26,9 +28,56 @@ import com.macluczak.mywallet.viewmodels.MainViewModel
 @Composable
 fun Navigation(viewModel: MainViewModel) {
     val navController = rememberNavController()
+    val showBottomMenu = remember {
+        mutableStateOf(true)
+    }
+
+
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            if(showBottomMenu.value){
+
+
+                BottomAppBar(
+                    cutoutShape = MaterialTheme.shapes.small.copy(
+                        CornerSize(percent = 50)
+                    ),
+                    backgroundColor = BlueNoteDark
+                ) {
+
+
+                    BottomMenu(items = listOf(
+                        BottomMenuContent("Home", "home_screen", R.drawable.ic_baseline_home_24),
+                        BottomMenuContent("List", "second_page", R.drawable.ic_baseline_list_24),
+                        BottomMenuContent("Notes", "third_page", R.drawable.ic_baseline_widgets_24)
+                    ), navController = navController)
+
+                }
+
+            }
+
+        },
+        isFloatingActionButtonDocked = true,
+        floatingActionButton = {
+            if(showBottomMenu.value) {
+
+                fab(viewModel = viewModel, navController = navController){
+                    showBottomMenu.value = false
+                }
+            }
+
+
+//            FloatingActionButton(onClick = {navController.navigate(Screen.CreateScreen.withArgs())}) {
+//
+//            }
+
+
+        })
+    { it
 
         NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
             composable(route = Screen.HomeScreen.route) {
+                showBottomMenu.value = true
                 HomeScreen(viewModel = viewModel, navController = navController)
             }
             composable(route = Screen.NoteDetail.route + "/{id}", arguments = listOf(
@@ -38,6 +87,7 @@ fun Navigation(viewModel: MainViewModel) {
                     nullable = false
                 }
             )) { entry ->
+                showBottomMenu.value = false
                 NoteDetails(id = entry.arguments!!.getInt("id"), viewModel = viewModel)
 
 
@@ -49,21 +99,26 @@ fun Navigation(viewModel: MainViewModel) {
                     nullable = false
                 }
             )) { entry ->
-                TaskDetails(id = entry.arguments!!.getInt("id"), viewModel= viewModel)
+                showBottomMenu.value = false
+                TaskDetails(id = entry.arguments!!.getInt("id"), viewModel = viewModel)
 
 
             }
             composable(route = Screen.SecondPage.route) {
+                showBottomMenu.value = true
                 SecondPage(viewModel = viewModel, navController = navController)
             }
 
             composable(route = Screen.CreateScreen.route) {
+                showBottomMenu.value = false
                 CreateScreen(viewModel = viewModel, navController = navController)
             }
 
-            composable(route = Screen.ThirdPage.route){
+            composable(route = Screen.ThirdPage.route) {
+                showBottomMenu.value = true
                 ThirdPage(viewModel, navController = navController)
             }
         }
+    }
 
 }

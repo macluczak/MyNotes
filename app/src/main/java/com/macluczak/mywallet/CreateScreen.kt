@@ -8,6 +8,7 @@ import android.content.Context
 import android.widget.DatePicker
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -22,7 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.convertTo
+import androidx.core.graphics.toColor
 import androidx.navigation.NavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
@@ -33,6 +37,11 @@ import java.util.*
 
 @Composable
 fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
+
+    val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(color = Color.White)
+    systemUiController.setNavigationBarColor(color = Color.White)
+
     var headerString = ""
 
     val createType = remember {
@@ -74,35 +83,37 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
 
 
-    Scaffold(modifier = Modifier.fillMaxSize(),
-
-        bottomBar = {
-            Box(Modifier
-                .fillMaxWidth()
-                .padding(15.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable {
-                    if (createType.value == 0) {
-                        viewModel.insertTask(Task(createTitle, createDescription, taskState.value,
-                            startDate, endDate, startTime, endTime, dayCheckBox.value))
-                    }
-                    if (createType.value == 1) {
-                        viewModel.insertNote(Note(createTitle,
-                            createDescription,
-                            colorChoose.value))
-                    }
-                }
-                .background(BlueNote)) {
-                Text(text = "Create", color = Color.White,
-                    modifier = Modifier
-                        .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                        .align(Alignment.Center))
-
-            }
-        }
-
-
-    ) {
+//    Scaffold(modifier = Modifier.fillMaxSize(),
+//
+//        bottomBar = {
+//            Box(Modifier
+//                .fillMaxWidth()
+//                .padding(15.dp)
+//                .clip(RoundedCornerShape(10.dp))
+//                .clickable {
+//                    if (createType.value == 0) {
+//                        viewModel.insertTask(Task(createTitle, createDescription, taskState.value,
+//                            startDate, endDate, startTime, endTime, dayCheckBox.value))
+//                        navController.popBackStack()
+//                    }
+//                    if (createType.value == 1) {
+//                        viewModel.insertNote(Note(createTitle,
+//                            createDescription,
+//                            colorChoose.value))
+//                        navController.popBackStack()
+//                    }
+//                }
+//                .background(BlueNote)) {
+//                Text(text = "Create", color = Color.White,
+//                    modifier = Modifier
+//                        .padding(15.dp, 10.dp, 15.dp, 10.dp)
+//                        .align(Alignment.Center))
+//
+//            }
+//        }
+//
+//
+//    ) {
 
         Column(modifier = Modifier
             .fillMaxSize()
@@ -262,7 +273,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
             if (createType.value == 1) {
 
                 Column(modifier = Modifier.fillMaxSize()) {
-                    ColorPicker() {
+                    ColorPicker(colorChoose.value) {
                         colorChoose.value = it
                     }
 
@@ -335,20 +346,22 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
         }
 
-    }
+//    }
 
 }
 
 @Composable
-fun ColorPicker(onClick: (Int) -> Unit) {
+fun ColorPicker(colorChoose: Int = 0, onClick: (Int) -> Unit) {
 //    val colors = listOf(YellowNote, BlueNote, PurpleNote, GreenNote)
     val selectIndexColor = remember {
-        mutableStateOf(0)
+        mutableStateOf(colorChoose)
     }
 
 
-    LazyRow(Modifier.fillMaxWidth()) {
+
+    LazyRow() {
         items(Note.colorOfNote.size) {
+
 
             Box(modifier = Modifier
                 .padding(15.dp, 10.dp, 0.dp, 10.dp)
@@ -357,9 +370,10 @@ fun ColorPicker(onClick: (Int) -> Unit) {
                     selectIndexColor.value = it
                     onClick(it)
                 }
+                .border(2.dp, color =  if (selectIndexColor.value == it) Color.White else Color.Black, RoundedCornerShape(25.dp))
                 .background(Note.colorOfNote[it])) {
 
-                Text(text = if (selectIndexColor.value == it) " . " else "   ",
+                Text( "   ",
                     color = Color.Black,
                     modifier = Modifier
                         .padding(15.dp, 10.dp, 15.dp, 10.dp))

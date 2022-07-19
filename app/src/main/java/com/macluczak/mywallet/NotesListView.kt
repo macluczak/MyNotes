@@ -33,7 +33,7 @@ import com.macluczak.mywallet.ui.theme.TransparentRed
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController) {
+fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController, fullsize: Boolean= false) {
 
     Box(modifier = Modifier
         .padding(15.dp, 0.dp, 0.dp, 0.dp)) {
@@ -45,7 +45,8 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController)
         BoxWithConstraints(modifier = Modifier
 
             .clip(RoundedCornerShape(15.dp))
-            .height(160.dp)
+            .width(160.dp)
+            .fillMaxWidth(if(fullsize) 1f else 0f)
             .aspectRatio(1f)
             .background(BlueNote)
             .clickable {

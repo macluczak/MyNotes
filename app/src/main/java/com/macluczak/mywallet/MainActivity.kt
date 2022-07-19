@@ -1,6 +1,7 @@
 package com.macluczak.mywallet
 
 import android.os.Bundle
+import android.view.Window
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -17,16 +18,20 @@ import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.MyWalletTheme
 import com.macluczak.mywallet.viewmodels.MainViewModel
+import kotlin.coroutines.coroutineContext
 
 class MainActivity : ComponentActivity(){
     private lateinit var viewModel: MainViewModel

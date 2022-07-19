@@ -9,6 +9,7 @@ data class Note(
     var title: String,
     var message: String,
     var color: Int,
+    var fav: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     

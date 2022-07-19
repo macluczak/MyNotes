@@ -29,10 +29,11 @@ import com.macluczak.mywallet.ui.theme.BlueNoteDeep
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun fab(viewModel: MainViewModel, navController: NavController) {
+fun fab(viewModel: MainViewModel, navController: NavController, onFabClick: () -> Unit) {
 
         FloatingActionButton(
             onClick = {
+                onFabClick()
                 viewModel.routeState.value = Screen.CreateScreen.route
                 navController.navigate(Screen.CreateScreen.withArgs()) },
             backgroundColor = BlueNote
