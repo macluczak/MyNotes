@@ -47,6 +47,15 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     val createType = remember {
         mutableStateOf(0)
     }
+
+    val labelTitleColor = remember {
+        mutableStateOf(Color.Black)
+    }
+
+    val labelMessageColor = remember {
+        mutableStateOf(Color.Black)
+    }
+
     var createTitle by remember {
         mutableStateOf("")
     }
@@ -81,8 +90,6 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     }
 
 
-
-
 //    Scaffold(modifier = Modifier.fillMaxSize(),
 //
 //        bottomBar = {
@@ -115,9 +122,13 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 //
 //    ) {
 
+    Box()
+    {
+
+
         Column(modifier = Modifier
             .fillMaxSize()
-            .padding(0.dp, 0.dp, 0.dp, 55.dp)
+            .padding(0.dp, 0.dp, 0.dp, 0.dp)
         ) {
 
             Text(text = "Create ${headerString}",
@@ -145,6 +156,9 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         TextField(value = createTitle,
                             onValueChange = {
                                 createTitle = it
+                                if (labelTitleColor.value != Color.Black) {
+                                    labelTitleColor.value = Color.Black
+                                }
 
                             },
                             maxLines = 1,
@@ -156,8 +170,11 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 backgroundColor = BlueNoteLight,
                                 focusedIndicatorColor = BlueNote,
                                 unfocusedIndicatorColor = Color.LightGray,
+                                unfocusedLabelColor = labelTitleColor.value,
+                                focusedLabelColor = labelTitleColor.value,
                                 cursorColor = Color.Black,
                                 textColor = Color.Black),
+
 
 
                             modifier = Modifier
@@ -171,6 +188,9 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         TextField(value = createDescription,
                             onValueChange = {
                                 createDescription = it
+                                if (labelMessageColor.value != Color.Black) {
+                                    labelMessageColor.value = Color.Black
+                                }
 
                             },
                             maxLines = 8,
@@ -181,6 +201,8 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 backgroundColor = BlueNoteLight,
                                 focusedIndicatorColor = BlueNote,
                                 unfocusedIndicatorColor = Color.LightGray,
+                                unfocusedLabelColor = labelMessageColor.value,
+                                focusedLabelColor = labelMessageColor.value,
                                 cursorColor = Color.Black,
                                 textColor = Color.Black),
 
@@ -272,14 +294,17 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
             }
             if (createType.value == 1) {
 
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp, 0.dp, 0.dp, 55.dp)
+                ) {
                     ColorPicker(colorChoose.value) {
                         colorChoose.value = it
                     }
 
 
                     Box(modifier = Modifier
-                        .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                        .padding(15.dp, 10.dp, 15.dp, 15.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(Note.colorOfNote[colorChoose.value])) {
 
@@ -287,6 +312,9 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             TextField(value = createTitle,
                                 onValueChange = {
                                     createTitle = it
+                                    if (labelTitleColor.value != Color.Black) {
+                                        labelTitleColor.value = Color.Black
+                                    }
 
                                 },
                                 maxLines = 1,
@@ -298,6 +326,8 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                     backgroundColor = Color.Transparent,
                                     focusedIndicatorColor = BlueNote,
                                     unfocusedIndicatorColor = Color.LightGray,
+                                    unfocusedLabelColor = labelTitleColor.value,
+                                    focusedLabelColor = labelTitleColor.value,
                                     cursorColor = Color.Black,
                                     textColor = Color.Black),
 
@@ -311,6 +341,9 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             TextField(value = createDescription,
                                 onValueChange = {
                                     createDescription = it
+                                    if (labelMessageColor.value != Color.Black) {
+                                        labelMessageColor.value = Color.Black
+                                    }
 
                                 },
                                 maxLines = 8,
@@ -321,14 +354,17 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                     backgroundColor = Color.Transparent,
                                     focusedIndicatorColor = BlueNote,
                                     unfocusedIndicatorColor = Color.LightGray,
+                                    unfocusedLabelColor = labelMessageColor.value,
+                                    focusedLabelColor = labelMessageColor.value,
                                     cursorColor = Color.Black,
                                     textColor = Color.Black),
 
 
                                 modifier = Modifier
+
+//                                    .height(450.dp)
                                     .fillMaxSize()
-                                    .height(190.dp)
-                                    .padding(15.dp, 0.dp, 15.dp, 0.dp)
+                                    .padding(15.dp, 0.dp, 15.dp, 15.dp)
 
 
                             )
@@ -346,13 +382,71 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
         }
 
-//    }
+
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .padding(15.dp)
+                .align(Alignment.BottomEnd)
+                .clip(RoundedCornerShape(10.dp))
+                .clickable {
+                    if (createType.value == 0) {
+
+                        if (createTitle.isBlank() && createDescription.isBlank()) {
+                            labelTitleColor.value = Color.Red
+                            labelMessageColor.value = Color.Red
+                        } else if (createDescription.isBlank()) {
+                            labelMessageColor.value = Color.Red
+                        } else if (createTitle.isBlank() ) {
+                            labelTitleColor.value = Color.Red
+
+                        } else {
+                            viewModel.insertTask(Task(createTitle,
+                                createDescription,
+                                taskState.value,
+                                startDate,
+                                endDate,
+                                startTime,
+                                endTime,
+                                dayCheckBox.value))
+                            navController.popBackStack()
+                        }
+                    }
+                    if (createType.value == 1) {
+                        if (createTitle.isBlank() && createDescription.isBlank()) {
+                            labelTitleColor.value = Color.Red
+                            labelMessageColor.value = Color.Red
+                        } else if (createDescription.isBlank()) {
+                            labelMessageColor.value = Color.Red
+                        } else if (createTitle.isBlank() ) {
+                            labelTitleColor.value = Color.Red
+
+                        }else {
+                            viewModel.insertNote(Note(createTitle,
+                                createDescription,
+                                colorChoose.value))
+                            navController.popBackStack()
+                        }
+                    }
+                }
+                .background(BlueNote),
+        ) {
+            Text(text = "Create", color = Color.White,
+                modifier = Modifier
+                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                    .align(Alignment.Center))
+
+        }
+
+
+    }
+
 
 }
 
 @Composable
 fun ColorPicker(colorChoose: Int = 0, onClick: (Int) -> Unit) {
-//    val colors = listOf(YellowNote, BlueNote, PurpleNote, GreenNote)
+
     val selectIndexColor = remember {
         mutableStateOf(colorChoose)
     }
@@ -370,10 +464,12 @@ fun ColorPicker(colorChoose: Int = 0, onClick: (Int) -> Unit) {
                     selectIndexColor.value = it
                     onClick(it)
                 }
-                .border(2.dp, color =  if (selectIndexColor.value == it) Color.White else Color.Black, RoundedCornerShape(25.dp))
+                .border(2.dp,
+                    color = if (selectIndexColor.value == it) Color.White else Color.Black,
+                    RoundedCornerShape(25.dp))
                 .background(Note.colorOfNote[it])) {
 
-                Text( "   ",
+                Text("   ",
                     color = Color.Black,
                     modifier = Modifier
                         .padding(15.dp, 10.dp, 15.dp, 10.dp))
@@ -482,7 +578,7 @@ fun ChooseType(onClick: (Int) -> Unit) {
 @Composable
 fun chooseTaskState(unCheck: Boolean = false, onClick: (Int) -> Unit) {
     val checkType = listOf("to do", "in progress", "done")
-    val initVal = if(unCheck) 3 else 0
+    val initVal = if (unCheck) 3 else 0
     val selectIndexType = remember {
         mutableStateOf(initVal)
     }
@@ -497,7 +593,7 @@ fun chooseTaskState(unCheck: Boolean = false, onClick: (Int) -> Unit) {
                     .clickable {
                         if (selectIndexType.value == it && unCheck) {
                             selectIndexType.value = 3
-                            onClick( selectIndexType.value)
+                            onClick(selectIndexType.value)
 
                         } else {
                             selectIndexType.value = it
