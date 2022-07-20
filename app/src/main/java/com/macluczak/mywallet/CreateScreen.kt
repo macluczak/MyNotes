@@ -63,16 +63,16 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
         mutableStateOf("")
     }
     var startDate by remember {
-        mutableStateOf("")
+        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()).toString())
     }
     var endDate by remember {
-        mutableStateOf("")
+        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()).toString())
     }
     var startTime by remember {
-        mutableStateOf("")
+        mutableStateOf("12:00")
     }
     val endTime by remember {
-        mutableStateOf("")
+        mutableStateOf("12:00")
     }
     val taskState = remember {
         mutableStateOf(0)
@@ -576,9 +576,9 @@ fun ChooseType(onClick: (Int) -> Unit) {
 
 
 @Composable
-fun chooseTaskState(unCheck: Boolean = false, onClick: (Int) -> Unit) {
+fun chooseTaskState(state: Int = 0, unCheck: Boolean = false, onClick: (Int) -> Unit) {
     val checkType = listOf("to do", "in progress", "done")
-    val initVal = if (unCheck) 3 else 0
+    val initVal = if (unCheck) 3 else state
     val selectIndexType = remember {
         mutableStateOf(initVal)
     }
