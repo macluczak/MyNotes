@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -126,7 +127,9 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
                     .padding(horizontal = 15.dp)
                     .align(Alignment.CenterVertically),
                     text = item.title,
-                    fontSize = 22.sp,
+                    maxLines = 1,
+                    softWrap = true,
+                    style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )

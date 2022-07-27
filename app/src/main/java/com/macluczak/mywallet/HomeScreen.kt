@@ -124,27 +124,27 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
                     color = BlackCurrant
                 )
 
-                Text(text = editNoteText.value,
-
-                    style = MaterialTheme.typography.body1,
-                    textDecoration = TextDecoration.Underline,
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .clickable {
-
-                            if (viewModel.getNoteEdit().value == false) {
-                                viewModel.noteEditable()
-                                editNoteText.value = "Cancel"
-
-                            } else {
-                                viewModel.noteUneditable()
-                                editNoteText.value = "Edit"
-                            }
-
-                        },
-                    color = BlackCurrant
-
-                )
+//                Text(text = editNoteText.value,
+//
+//                    style = MaterialTheme.typography.body1,
+//                    textDecoration = TextDecoration.Underline,
+//                    modifier = Modifier
+//                        .align(Alignment.Bottom)
+//                        .clickable {
+//
+//                            if (viewModel.getNoteEdit().value == false) {
+//                                viewModel.noteEditable()
+//                                editNoteText.value = "Cancel"
+//
+//                            } else {
+//                                viewModel.noteUneditable()
+//                                editNoteText.value = "Edit"
+//                            }
+//
+//                        },
+//                    color = BlackCurrant
+//
+//                )
             }
 
 
@@ -159,33 +159,33 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
                 .fillMaxWidth()
                 .padding(20.dp, 20.dp, 20.dp, 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "In Progress",
+                Text(text = "Let's do the Tasks",
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
                     style = MaterialTheme.typography.h6,
                     color = BlackCurrant
                 )
 
-                Text(text = markTaskText.value,
-                    style = MaterialTheme.typography.body1,
-                    textDecoration = TextDecoration.Underline,
-                    modifier = Modifier
-                        .align(Alignment.Bottom)
-                        .clickable {
-
-                            if (viewModel.markAsDone.value == false) {
-                                viewModel.asDone()
-                                markTaskText.value = "Cancel"
-
-                            } else {
-                                viewModel.asDoneCancel()
-                                markTaskText.value = "Mark as Done"
-                            }
-
-                        },
-                    color = BlackCurrant
-
-                )
+//                Text(text = markTaskText.value,
+//                    style = MaterialTheme.typography.body1,
+//                    textDecoration = TextDecoration.Underline,
+//                    modifier = Modifier
+//                        .align(Alignment.Bottom)
+//                        .clickable {
+//
+//                            if (viewModel.markAsDone.value == false) {
+//                                viewModel.asDone()
+//                                markTaskText.value = "Cancel"
+//
+//                            } else {
+//                                viewModel.asDoneCancel()
+//                                markTaskText.value = "Mark as Done"
+//                            }
+//
+//                        },
+//                    color = BlackCurrant
+//
+//                )
             }
 
             DisplayTasks(tasks = listTask, viewModel = viewModel, navController = navController)

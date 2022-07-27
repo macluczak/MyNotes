@@ -71,7 +71,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     var startTime by remember {
         mutableStateOf("12:00")
     }
-    val endTime by remember {
+    var endTime by remember {
         mutableStateOf("12:00")
     }
     val taskState = remember {
@@ -278,7 +278,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                     ShowTimePicker(context = LocalContext.current,
                                         initHour = 12,
                                         initMinute = 0) {
-                                        endDate = it
+                                        endTime = it
                                     }
                                 }
 
