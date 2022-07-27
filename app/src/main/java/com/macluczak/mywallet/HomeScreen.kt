@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Absolute.Center
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -13,6 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,16 +33,16 @@ import com.macluczak.mywallet.viewmodels.MainViewModel
 
 fun HomeScreen(viewModel: MainViewModel, navController: NavController) {
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(color = BlueNote)
+    systemUiController.setStatusBarColor(color = HippieBlue)
     systemUiController.setNavigationBarColor(
-        color = BlueNoteDark
+        color = HippieBluelight
     )
 
         Box(modifier = Modifier
             .fillMaxSize()
-            .background(BlueNote)
+            .background(HippieBlue)
         ) {
-            Column {
+            Column(modifier = Modifier.padding(0.dp, 20.dp, 0.dp, 0.dp)) {
 
                 Calendar(viewModel = viewModel)
                 CardViewHome(viewModel = viewModel, navController = navController)
@@ -65,9 +69,10 @@ fun Calendar(viewModel: MainViewModel) {
 
         Text(
             modifier = Modifier.padding(horizontal = 15.dp),
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.h2,
             text = month,
-            color = Color.White
+            color = Color.White,
+            fontWeight = FontWeight.SemiBold
 
 
         )
@@ -90,8 +95,9 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
     Card(modifier = Modifier
         .fillMaxSize()
-        .clip(RoundedCornerShape(15.dp, 15.dp, 0.dp, 0.dp))
-        .background(Color.White),
+        .clip(RoundedCornerShape(25.dp, 0.dp, 0.dp, 0.dp))
+        .background(HippieBlue50),
+        backgroundColor = HippieBlue50,
         elevation = 7.dp
     ) {
 
@@ -109,15 +115,17 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp, 0.dp, 15.dp, 5.dp),
+                .padding(20.dp, 0.dp, 20.dp, 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "My Notes",
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = BlackCurrant
                 )
 
                 Text(text = editNoteText.value,
+
                     style = MaterialTheme.typography.body1,
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier
@@ -133,7 +141,8 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
                                 editNoteText.value = "Edit"
                             }
 
-                        }
+                        },
+                    color = BlackCurrant
 
                 )
             }
@@ -148,12 +157,13 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
             Row(modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp, 15.dp, 15.dp, 0.dp),
+                .padding(20.dp, 20.dp, 20.dp, 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "In Progress",
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = BlackCurrant
                 )
 
                 Text(text = markTaskText.value,
@@ -172,7 +182,8 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
                                 markTaskText.value = "Mark as Done"
                             }
 
-                        }
+                        },
+                    color = BlackCurrant
 
                 )
             }
@@ -194,25 +205,47 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 fun SearchView(viewModel: MainViewModel) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .padding(15.dp, 15.dp, 15.dp, 15.dp)) {
+        .padding(20.dp, 15.dp, 20.dp, 15.dp)) {
 
         Box(modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(5.dp))
+            .clip(RoundedCornerShape(25.dp))
             .background(Color.White)
         ) {
 
             var mText by remember { mutableStateOf("") }
 
             TextField(value = mText,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+                    .align(Alignment.TopCenter),
                 onValueChange = {
                     mText = it
                     viewModel.searchWord.value = it
                 },
-                label = { Text("Search...") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
+                label = { Text(modifier = Modifier.align(Alignment.CenterStart), text="Search") },
+
+
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = HippieBluelight,
+                    focusedIndicatorColor = HippieBluelight,
+                    unfocusedIndicatorColor = HippieBluelight,
+                    unfocusedLabelColor = HippieBlue,
+                    focusedLabelColor = OysterBay,
+                    cursorColor = BlackCurrant,
+                    textColor = BlackCurrant),
+                trailingIcon = {
+                    if(true){
+                        IconButton(onClick = {null}) {
+                            Icon(modifier = Modifier .padding(0.dp, 0.dp, 20.dp, 0.dp), painter = painterResource(id = R.drawable.ic_baseline_search_24),
+                                contentDescription = "search",
+                            tint = HippieBlue)
+
+                        }
+                    }
+
+                }
 
             )
 

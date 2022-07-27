@@ -22,7 +22,7 @@ import com.macluczak.mywallet.bottom_menu.BottomMenu
 import com.macluczak.mywallet.bottom_menu.BottomMenuContent
 import com.macluczak.mywallet.bottom_menu.fab
 import com.macluczak.mywallet.navigation.Screen
-import com.macluczak.mywallet.ui.theme.BlueNoteDark
+import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
@@ -42,7 +42,7 @@ fun Navigation(viewModel: MainViewModel) {
                     cutoutShape = MaterialTheme.shapes.small.copy(
                         CornerSize(percent = 50)
                     ),
-                    backgroundColor = BlueNoteDark
+                    backgroundColor = HippieBluelight
                 ) {
 
 

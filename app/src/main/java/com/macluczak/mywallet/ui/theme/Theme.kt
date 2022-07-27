@@ -45,14 +45,14 @@ fun MyWalletTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composab
 
         )
         systemUiController.setNavigationBarColor(
-            color = BlueNoteDark
+            color = HippieBluelight
         )
     }else{
         systemUiController.setStatusBarColor(
             color = BlueNote
         )
         systemUiController.setNavigationBarColor(
-            color = BlueNoteDark
+            color = HippieBluelight
         )
     }
 

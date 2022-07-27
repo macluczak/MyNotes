@@ -23,9 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.macluczak.mywallet.R
 import com.macluczak.mywallet.navigation.Screen
-import com.macluczak.mywallet.ui.theme.BlueNote
-import com.macluczak.mywallet.ui.theme.BlueNoteDark
-import com.macluczak.mywallet.ui.theme.BlueNoteDeep
+import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
@@ -36,7 +34,7 @@ fun fab(viewModel: MainViewModel, navController: NavController, onFabClick: () -
                 onFabClick()
                 viewModel.routeState.value = Screen.CreateScreen.route
                 navController.navigate(Screen.CreateScreen.withArgs()) },
-            backgroundColor = BlueNote
+            backgroundColor = Coral
 
 
         ) {
@@ -56,10 +54,10 @@ fun fab(viewModel: MainViewModel, navController: NavController, onFabClick: () -
 fun BottomMenu(
     items: List<BottomMenuContent>,
     modifier: Modifier = Modifier,
-    activeHighlightColor: Color = BlueNote,
+    activeHighlightColor: Color = HippieBlue,
     activeTextColor: Color = BlueNote,
     activeIconColor: Color = Color.White,
-    inactiveTextColor: Color = BlueNoteDeep,
+    inactiveTextColor: Color = HippieBlue300,
     initialSelectedItemIndex: Int = 0,
     navController: NavController,
 ) {

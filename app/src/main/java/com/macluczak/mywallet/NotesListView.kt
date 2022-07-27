@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,17 +27,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.data.note.Note
-import com.macluczak.mywallet.ui.theme.BlueNote
-import com.macluczak.mywallet.ui.theme.BlueNoteLight
-import com.macluczak.mywallet.ui.theme.BlueNoteMedium
-import com.macluczak.mywallet.ui.theme.TransparentRed
+import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
 fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController, fullsize: Boolean= false) {
 
-    Box(modifier = Modifier
-        .padding(15.dp, 0.dp, 0.dp, 0.dp)) {
+    Card(modifier = Modifier
+        .padding(0.dp, 0.dp, 15.dp, 0.dp)
+        , backgroundColor = Color.Transparent, elevation = 8.dp) {
 
         var visible = remember { mutableStateOf(false) }
         var color = remember { mutableStateOf(TransparentRed) }
@@ -44,11 +43,10 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
 
         BoxWithConstraints(modifier = Modifier
 
-            .clip(RoundedCornerShape(15.dp))
             .width(160.dp)
             .fillMaxWidth(if(fullsize) 1f else 0f)
             .aspectRatio(1f)
-            .background(BlueNote)
+            .background(HippieBlue300)
             .clickable {
                 navController.navigate(Screen.NoteDetail.withArgs(item.id))
 
@@ -107,10 +105,10 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
                 .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp)) {
 
                 drawPath(path = mediumTonePath,
-                    color = BlueNoteMedium)
+                    color = HippieBlue200)
 
                 drawPath(path = lightTonePath,
-                    color = BlueNoteLight)
+                    color = HippieBlue100)
 
 
             }
@@ -178,9 +176,23 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
     }
 
 
+
     LazyRow(modifier = Modifier
         .padding(0.dp,0.dp, 0.dp, 0.dp)){
+
+        item{
+            Box(modifier = Modifier
+                .height(160.dp)
+                .width(20.dp)
+
+
+            ){
+
+            }
+        }
+
         items(notesFiltered.size) { index ->
+
             if(notesFiltered.isNotEmpty()) {
                 NoteItem(item = notesFiltered[index],
                     viewModel = viewModel,
@@ -191,7 +203,7 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
         item{
             Box(modifier = Modifier
                 .height(160.dp)
-                .width(15.dp)
+                .width(5.dp)
 
                 ){
 
