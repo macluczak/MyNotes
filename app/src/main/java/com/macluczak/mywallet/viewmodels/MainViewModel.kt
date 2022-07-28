@@ -54,6 +54,14 @@ AndroidViewModel(application){
 
     }
 
+    fun validateTitle(title: String): Boolean{
+        return title.isNotBlank()
+    }
+
+    fun validateDescription(description: String): Boolean{
+        return description.isNotBlank()
+    }
+
 
     // NOTE
     private var noteRepostitory: NoteRepository =

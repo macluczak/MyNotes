@@ -413,12 +413,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         }
                     }
                     if (createType.value == 1) {
-                        if (createTitle.isBlank() && createDescription.isBlank()) {
+                        if (!viewModel.validateTitle(createTitle) && !viewModel.validateDescription(createDescription)) {
                             labelTitleColor.value = Color.Red
                             labelMessageColor.value = Color.Red
-                        } else if (createDescription.isBlank()) {
+                        } else if (!viewModel.validateDescription(createDescription)) {
                             labelMessageColor.value = Color.Red
-                        } else if (createTitle.isBlank() ) {
+                        } else if (!viewModel.validateTitle(createTitle)) {
                             labelTitleColor.value = Color.Red
 
                         }else {
