@@ -4,6 +4,7 @@ package com.macluczak.mywallet
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.os.Build
 
 import android.widget.DatePicker
 
@@ -12,6 +13,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -132,15 +134,31 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp))
+                    .height(20.dp))
 
 
                 Card(modifier = Modifier
-                    .padding(20.dp, 10.dp, 20.dp, 10.dp)
+                    .padding(20.dp, 10.dp, 20.dp, 80.dp)
+                    .fillMaxSize()
+                    .weight(4f)
                    , backgroundColor = HippieBlue100,
                             elevation = 7.dp) {
 
-                    Column() {
+
+                    if(Build.VERSION.SDK_INT >= 32) {
+                        BoxWithConstraints(modifier = Modifier
+                            .fillMaxSize()
+                            .blur(26.dp)) {
+                            val height = constraints.maxHeight
+                            val width = constraints.maxWidth
+                            CanvasBackground(height = height, width = width)
+
+                        }
+                    }
+
+                    Column(modifier = Modifier
+                        .fillMaxSize()
+                        .padding(0.dp, 0.dp, 0.dp, 10.dp)) {
                         TextField(value = createTitle,
                             onValueChange = {
                                 createTitle = it
@@ -155,7 +173,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                             label = { Text("Title") },
                             colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = HippieBlue100,
+                                backgroundColor = Color.Transparent,
                                 focusedIndicatorColor = HippieBlue,
                                 unfocusedIndicatorColor = HippieBlue300,
                                 unfocusedLabelColor = labelTitleColor.value,
@@ -185,7 +203,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                             label = { Text("Description") },
                             colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = HippieBlue100,
+                                backgroundColor = Color.Transparent,
                                 focusedIndicatorColor = HippieBlue,
                                 unfocusedIndicatorColor = HippieBlue300,
                                 unfocusedLabelColor = labelMessageColor.value,
@@ -196,106 +214,182 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(190.dp)
+                                .fillMaxSize()
+                                .weight(3f)
                                 .padding(15.dp, 0.dp, 15.dp, 0.dp)
 
 
                         )
 
-
-                    }
-
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp, 5.dp, 20.dp, 5.dp)
-
-
-                        .clip(RoundedCornerShape(25.dp))
-                        .background(HippieBlue200)
-
-                ) {
-                    Box(modifier = Modifier
-                        .padding(1.dp, 1.dp, 1.dp, 1.dp)
-
-                        .clip(RoundedCornerShape(25.dp))
-                        .align(Alignment.Center)
-                        .background(HippieBlue50))
-                    {
-
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
+                        Column(modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxSize()
+                            .weight(3f)
                         ) {
-                        Row(modifier = Modifier
-                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                            .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "Whole Day", color = BlackCurrant)
-                            Switch(checked = dayCheckBox.value, onCheckedChange = {
-                                dayCheckBox.value = it
-                            },
-                                enabled = true, colors = SwitchDefaults.colors(
-                                    checkedThumbColor = Coral
-                                )
+                            Row(modifier = Modifier
+                                .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(text = "Whole Day", color = BlackCurrant)
+                                Switch(checked = dayCheckBox.value, onCheckedChange = {
+                                    dayCheckBox.value = it
+                                },
+                                    enabled = true, colors = SwitchDefaults.colors(
+                                        checkedThumbColor = Coral
+                                    )
 //
-                            )
-                        }
-                        Row(modifier = Modifier
-                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                            .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "End", color =BlackCurrant)
-                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                                ShowDatePicker(context = LocalContext.current) {
-                                    endDate = it
-                                }
-                                if (!dayCheckBox.value) {
-                                    ShowTimePicker(context = LocalContext.current,
-                                        initHour = 12,
-                                        initMinute = 0) {
-                                        endTime = it
+                                )
+                            }
+                            Row(modifier = Modifier
+                                .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(text = "End", color =BlackCurrant)
+                                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                    ShowDatePicker(context = LocalContext.current) {
+                                        endDate = it
                                     }
+                                    if (!dayCheckBox.value) {
+                                        ShowTimePicker(context = LocalContext.current,
+                                            initHour = 12,
+                                            initMinute = 0) {
+                                            endTime = it
+                                        }
+                                    }
+
+
                                 }
 
+                            }
+                            Row(modifier = Modifier
+                                .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(text = "Start", color =BlackCurrant)
+                                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                    ShowDatePicker(context = LocalContext.current) {
+                                        startDate = it
+
+                                    }
+                                    if (!dayCheckBox.value) {
+                                        ShowTimePicker(context = LocalContext.current,
+                                            initHour = 12,
+                                            initMinute = 0) {
+                                            startTime = it
+                                        }
+                                    }
+
+
+                                }
 
                             }
 
-                        }
-                        Row(modifier = Modifier
-                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                            .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "Start", color =BlackCurrant)
-                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                                ShowDatePicker(context = LocalContext.current) {
-                                    startDate = it
-
-                                }
-                                if (!dayCheckBox.value) {
-                                    ShowTimePicker(context = LocalContext.current,
-                                        initHour = 12,
-                                        initMinute = 0) {
-                                        startTime = it
-                                    }
-                                }
 
 
-                            }
 
                         }
-
 
 
 
                     }
 
                 }
-            }
+
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .fillMaxSize()
+//                        .weight(2f)
+//                        .padding(20.dp, 5.dp, 20.dp, 5.dp)
+//
+//
+//                        .clip(RoundedCornerShape(25.dp))
+//                        .background(HippieBlue200)
+//
+//                ) {
+//                    Box(modifier = Modifier
+//                        .padding(1.dp, 1.dp, 1.dp, 1.dp)
+//
+//                        .clip(RoundedCornerShape(25.dp))
+//                        .align(Alignment.Center)
+//                        .background(HippieBlue50))
+//                    {
+//
+//                    Column(modifier = Modifier
+//                        .fillMaxWidth()
+//                        ) {
+//                        Row(modifier = Modifier
+//                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
+//                            .fillMaxWidth(),
+//                            verticalAlignment = Alignment.CenterVertically,
+//                            horizontalArrangement = Arrangement.SpaceBetween) {
+//                            Text(text = "Whole Day", color = BlackCurrant)
+//                            Switch(checked = dayCheckBox.value, onCheckedChange = {
+//                                dayCheckBox.value = it
+//                            },
+//                                enabled = true, colors = SwitchDefaults.colors(
+//                                    checkedThumbColor = Coral
+//                                )
+////
+//                            )
+//                        }
+//                        Row(modifier = Modifier
+//                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
+//                            .fillMaxWidth(),
+//                            verticalAlignment = Alignment.CenterVertically,
+//                            horizontalArrangement = Arrangement.SpaceBetween) {
+//                            Text(text = "End", color =BlackCurrant)
+//                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+//                                ShowDatePicker(context = LocalContext.current) {
+//                                    endDate = it
+//                                }
+//                                if (!dayCheckBox.value) {
+//                                    ShowTimePicker(context = LocalContext.current,
+//                                        initHour = 12,
+//                                        initMinute = 0) {
+//                                        endTime = it
+//                                    }
+//                                }
+//
+//
+//                            }
+//
+//                        }
+//                        Row(modifier = Modifier
+//                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
+//                            .fillMaxWidth(),
+//                            verticalAlignment = Alignment.CenterVertically,
+//                            horizontalArrangement = Arrangement.SpaceBetween) {
+//                            Text(text = "Start", color =BlackCurrant)
+//                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+//                                ShowDatePicker(context = LocalContext.current) {
+//                                    startDate = it
+//
+//                                }
+//                                if (!dayCheckBox.value) {
+//                                    ShowTimePicker(context = LocalContext.current,
+//                                        initHour = 12,
+//                                        initMinute = 0) {
+//                                        startTime = it
+//                                    }
+//                                }
+//
+//
+//                            }
+//
+//                        }
+//
+//
+//
+//
+//                    }
+//
+//                }
+//            }
+
                 }
             if (createType.value == 1) {
 
@@ -388,12 +482,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
         }
 
 
-        Box(
+        Surface( shape = CircleShape, color = Coral,
+            elevation = 7.dp, modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(15.dp)
+                .padding(20.dp, 15.dp, 20.dp, 15.dp)
                 .align(Alignment.BottomEnd)
-                .clip(RoundedCornerShape(10.dp))
                 .clickable {
                     if (createType.value == 0) {
 
@@ -436,13 +530,16 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         }
                     }
                 }
-                .background(Coral),
-        ) {
-            Text(text = "Create", color = Color.White,
-                modifier = Modifier
-                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                    .align(Alignment.Center))
 
+
+        ) {
+            Box(Modifier.align(Alignment.Center)) {
+                Text(text = "Create", color = Color.White,
+                    modifier = Modifier
+                        .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                        .align(Alignment.Center))
+
+            }
         }
 
 
@@ -569,7 +666,7 @@ fun ChooseType(onClick: (Int) -> Unit) {
     LazyRow() {
         items(checkType.size) {
             Box(modifier = Modifier
-                .padding(15.dp, 10.dp, 0.dp, 10.dp)
+                .padding(20.dp, 10.dp, 0.dp, 10.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .clickable {
                     selectIndexType.value = it
