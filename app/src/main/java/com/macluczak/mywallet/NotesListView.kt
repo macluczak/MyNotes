@@ -206,6 +206,7 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
                     maxLines = 1,
                     softWrap = true,
                     style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
             }
