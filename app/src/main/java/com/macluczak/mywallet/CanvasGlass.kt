@@ -13,13 +13,13 @@ import com.macluczak.mywallet.ui.theme.HippieBlue200
 import com.macluczak.mywallet.ui.theme.HippieBlue50
 
 @Composable
-fun CanvasBackground(height: Int, width: Int, style: Int = 0){
+fun CanvasGlass(height: Int, width: Int, style: Int = 0){
 
-    val mediumTonePoint1 = Offset(0f, height * 0.20f)
-    val mediumTonePoint2 = Offset(width * 0.1f, height * 0.23f)
-    val mediumTonePoint3 = Offset(width * 0.4f, height * 0.21f)
-    val mediumTonePoint4 = Offset(width * 0.75f, height * 0.7f)
-    val mediumTonePoint5 = Offset(width * 1.5f, -height.toFloat())
+    val mediumTonePoint1 = Offset(0f, height *0f)
+    val mediumTonePoint2 = Offset(width * 0.1f, height * 0f)
+    val mediumTonePoint3 = Offset(width * 0.4f, height * 0f)
+    val mediumTonePoint4 = Offset(width * 0.75f, height * 0.5f)
+    val mediumTonePoint5 = Offset(width * 1.3f, -height.toFloat())
 
     val mediumTonePath = Path().apply {
 
@@ -38,9 +38,9 @@ fun CanvasBackground(height: Int, width: Int, style: Int = 0){
 
     val lightTonePoint1 = Offset(0f, height * 0.35f)
     val lightTonePoint2 = Offset(width * 0.1f, height * 0.55f)
-    val lightTonePoint3 = Offset(width * 0.3f, height * 0.38f)
-    val lightTonePoint4 = Offset(width * 0.65f, height* 0.8f)
-    val lightTonePoint5 = Offset(width * 1.4f, height* 0.9f)
+    val lightTonePoint3 = Offset(width * 0.4f, height * 0.80f)
+    val lightTonePoint4 = Offset(width * 0.65f, height* 0.5f)
+    val lightTonePoint5 = Offset(width * 1.4f, height* 1.5f)
 
     val lightTonePath = Path().apply {
 
@@ -59,7 +59,7 @@ fun CanvasBackground(height: Int, width: Int, style: Int = 0){
 
     Canvas(modifier = Modifier
         .fillMaxSize()
-        ){
+    ){
 
         drawPath(path = mediumTonePath,
             color = HippieBlue200)

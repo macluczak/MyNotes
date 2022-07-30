@@ -46,7 +46,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = HippieBlue50)
-    systemUiController.setNavigationBarColor(color = HippieBlue50)
+    systemUiController.setNavigationBarColor(color = HippieBlue100)
 
     var headerString = ""
 
@@ -141,7 +141,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                     .padding(20.dp, 10.dp, 20.dp, 80.dp)
                     .fillMaxSize()
                     .weight(4f)
-                   , backgroundColor = HippieBlue100,
+                   , backgroundColor = HippieBlue50,
                             elevation = 7.dp) {
 
 
@@ -151,7 +151,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             .blur(26.dp)) {
                             val height = constraints.maxHeight
                             val width = constraints.maxWidth
-                            CanvasBackground(height = height, width = width)
+                            CanvasGlass(height = height, width = width)
 
                         }
                     }
@@ -171,7 +171,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             singleLine = true,
 
 
-                            label = { Text("Title") },
+                            label = { Text("Title", style = MaterialTheme.typography.body1,  color = BlackCurrant) },
                             colors = TextFieldDefaults.textFieldColors(
                                 backgroundColor = Color.Transparent,
                                 focusedIndicatorColor = HippieBlue,
@@ -201,7 +201,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             maxLines = 8,
 
 
-                            label = { Text("Description") },
+                            label = { Text("Description", style = MaterialTheme.typography.body1, color = BlackCurrant) },
                             colors = TextFieldDefaults.textFieldColors(
                                 backgroundColor = Color.Transparent,
                                 focusedIndicatorColor = HippieBlue,
@@ -231,7 +231,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 .fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = "Whole Day", color = BlackCurrant)
+                                Text(text = "Whole Day", color = BlackCurrant,  style = MaterialTheme.typography.body1)
                                 Switch(checked = dayCheckBox.value, onCheckedChange = {
                                     dayCheckBox.value = it
                                 },
@@ -246,29 +246,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 .fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = "End", color =BlackCurrant)
-                                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                                    ShowDatePicker(context = LocalContext.current) {
-                                        endDate = it
-                                    }
-                                    if (!dayCheckBox.value) {
-                                        ShowTimePicker(context = LocalContext.current,
-                                            initHour = 12,
-                                            initMinute = 0) {
-                                            endTime = it
-                                        }
-                                    }
-
-
-                                }
-
-                            }
-                            Row(modifier = Modifier
-                                .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween) {
-                                Text(text = "Start", color =BlackCurrant)
+                                Text(text = "Start", color =BlackCurrant,  style = MaterialTheme.typography.body1)
                                 Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                                     ShowDatePicker(context = LocalContext.current) {
                                         startDate = it
@@ -279,6 +257,29 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                             initHour = 12,
                                             initMinute = 0) {
                                             startTime = it
+                                        }
+                                    }
+
+
+                                }
+
+                            }
+
+                            Row(modifier = Modifier
+                                .padding(15.dp, 10.dp, 15.dp, 0.dp)
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(text = "End", color =BlackCurrant,  style = MaterialTheme.typography.body1)
+                                Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                    ShowDatePicker(context = LocalContext.current) {
+                                        endDate = it
+                                    }
+                                    if (!dayCheckBox.value) {
+                                        ShowTimePicker(context = LocalContext.current,
+                                            initHour = 12,
+                                            initMinute = 0) {
+                                            endTime = it
                                         }
                                     }
 
@@ -420,7 +421,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 singleLine = true,
 
 
-                                label = { Text("Title") },
+                                label = { Text("Title", style = MaterialTheme.typography.body1) },
                                 colors = TextFieldDefaults.textFieldColors(
                                     backgroundColor = Color.Transparent,
                                     focusedIndicatorColor = BlueNote,
@@ -486,7 +487,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
             elevation = 7.dp, modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(20.dp, 15.dp, 20.dp, 15.dp)
+                .padding(20.dp, 15.dp, 20.dp, 20.dp)
                 .align(Alignment.BottomEnd)
                 .clickable {
                     if (createType.value == 0) {
@@ -534,7 +535,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
         ) {
             Box(Modifier.align(Alignment.Center)) {
-                Text(text = "Create", color = Color.White,
+                Text(text = "Create", color = Color.White , style = MaterialTheme.typography.body1,
                     modifier = Modifier
                         .padding(15.dp, 10.dp, 15.dp, 10.dp)
                         .align(Alignment.Center))
