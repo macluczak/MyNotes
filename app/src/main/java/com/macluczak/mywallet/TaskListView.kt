@@ -189,7 +189,7 @@ fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel, navController: Nav
     }
 
     LazyColumn(modifier = Modifier
-        .padding(0.dp, 0.dp, 0.dp, 0.dp)) {
+        .padding(20.dp, 0.dp, 20.dp, 0.dp)) {
 
         items(tasksFiltered.size) { index ->
             if (tasksFiltered.isNotEmpty()) {

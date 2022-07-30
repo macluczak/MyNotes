@@ -113,10 +113,20 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
                 editNoteText.value = "Cancel"
             }
 
+            Surface(elevation = 4.dp ,
+                modifier = Modifier.padding(0.dp,0.dp,0.dp,0.dp),
+                color = HippieBlue100){
 
-            SearchView(viewModel = viewModel)
+                SearchView(viewModel = viewModel)
+            }
+
+
+
 
             LazyColumn() {
+                item{
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
 
                 item {
                     Row(modifier = Modifier
@@ -196,7 +206,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 fun SearchView(viewModel: MainViewModel) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .padding(20.dp, 15.dp, 20.dp, 15.dp)) {
+        .padding(20.dp, 15.dp, 20.dp, 10.dp)) {
 
         Box(modifier = Modifier
             .fillMaxWidth()
