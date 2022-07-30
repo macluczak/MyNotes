@@ -48,6 +48,8 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     systemUiController.setStatusBarColor(color = HippieBlue50)
     systemUiController.setNavigationBarColor(color = HippieBlue100)
 
+    val mContext = LocalContext.current
+
     var headerString = ""
 
     val createType = remember {
@@ -55,11 +57,11 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     }
 
     val labelTitleColor = remember {
-        mutableStateOf(Color.Black)
+        mutableStateOf(BlackCurrant)
     }
 
     val labelMessageColor = remember {
-        mutableStateOf(Color.Black)
+        mutableStateOf(BlackCurrant)
     }
 
     var createTitle by remember {
@@ -171,7 +173,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             singleLine = true,
 
 
-                            label = { Text("Title", style = MaterialTheme.typography.body1,  color = BlackCurrant) },
+                            label = { Text("Title", style = MaterialTheme.typography.body1) },
                             colors = TextFieldDefaults.textFieldColors(
                                 backgroundColor = Color.Transparent,
                                 focusedIndicatorColor = HippieBlue,
@@ -201,7 +203,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             maxLines = 8,
 
 
-                            label = { Text("Description", style = MaterialTheme.typography.body1, color = BlackCurrant) },
+                            label = { Text("Description", style = MaterialTheme.typography.body1) },
                             colors = TextFieldDefaults.textFieldColors(
                                 backgroundColor = Color.Transparent,
                                 focusedIndicatorColor = HippieBlue,
@@ -299,97 +301,6 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                 }
 
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .fillMaxSize()
-//                        .weight(2f)
-//                        .padding(20.dp, 5.dp, 20.dp, 5.dp)
-//
-//
-//                        .clip(RoundedCornerShape(25.dp))
-//                        .background(HippieBlue200)
-//
-//                ) {
-//                    Box(modifier = Modifier
-//                        .padding(1.dp, 1.dp, 1.dp, 1.dp)
-//
-//                        .clip(RoundedCornerShape(25.dp))
-//                        .align(Alignment.Center)
-//                        .background(HippieBlue50))
-//                    {
-//
-//                    Column(modifier = Modifier
-//                        .fillMaxWidth()
-//                        ) {
-//                        Row(modifier = Modifier
-//                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-//                            .fillMaxWidth(),
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.SpaceBetween) {
-//                            Text(text = "Whole Day", color = BlackCurrant)
-//                            Switch(checked = dayCheckBox.value, onCheckedChange = {
-//                                dayCheckBox.value = it
-//                            },
-//                                enabled = true, colors = SwitchDefaults.colors(
-//                                    checkedThumbColor = Coral
-//                                )
-////
-//                            )
-//                        }
-//                        Row(modifier = Modifier
-//                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-//                            .fillMaxWidth(),
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.SpaceBetween) {
-//                            Text(text = "End", color =BlackCurrant)
-//                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-//                                ShowDatePicker(context = LocalContext.current) {
-//                                    endDate = it
-//                                }
-//                                if (!dayCheckBox.value) {
-//                                    ShowTimePicker(context = LocalContext.current,
-//                                        initHour = 12,
-//                                        initMinute = 0) {
-//                                        endTime = it
-//                                    }
-//                                }
-//
-//
-//                            }
-//
-//                        }
-//                        Row(modifier = Modifier
-//                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-//                            .fillMaxWidth(),
-//                            verticalAlignment = Alignment.CenterVertically,
-//                            horizontalArrangement = Arrangement.SpaceBetween) {
-//                            Text(text = "Start", color =BlackCurrant)
-//                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-//                                ShowDatePicker(context = LocalContext.current) {
-//                                    startDate = it
-//
-//                                }
-//                                if (!dayCheckBox.value) {
-//                                    ShowTimePicker(context = LocalContext.current,
-//                                        initHour = 12,
-//                                        initMinute = 0) {
-//                                        startTime = it
-//                                    }
-//                                }
-//
-//
-//                            }
-//
-//                        }
-//
-//
-//
-//
-//                    }
-//
-//                }
-//            }
 
                 }
             if (createType.value == 1) {
@@ -428,8 +339,8 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             TextField(value = createTitle,
                                 onValueChange = {
                                     createTitle = it
-                                    if (labelTitleColor.value != Color.Black) {
-                                        labelTitleColor.value = Color.Black
+                                    if (labelTitleColor.value != BlackCurrant) {
+                                        labelTitleColor.value = BlackCurrant
                                     }
 
                                 },
@@ -505,14 +416,18 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                 .align(Alignment.BottomEnd)
                 .clickable {
                     if (createType.value == 0) {
-
-                        if (createTitle.isBlank() && createDescription.isBlank()) {
-                            labelTitleColor.value = Color.Red
-                            labelMessageColor.value = Color.Red
-                        } else if (createDescription.isBlank()) {
-                            labelMessageColor.value = Color.Red
-                        } else if (createTitle.isBlank()) {
-                            labelTitleColor.value = Color.Red
+                        if (!viewModel.validateTitle(createTitle) && !viewModel.validateDescription(
+                                createDescription)
+                        ) {
+                            labelTitleColor.value = Coral
+                            labelMessageColor.value = Coral
+                            mToast(mContext, "Empty Fields!")
+                        } else if (!viewModel.validateDescription(createDescription)) {
+                            labelMessageColor.value = Coral
+                            mToast(mContext, "Add Description")
+                        } else if (!viewModel.validateTitle(createTitle)) {
+                            labelTitleColor.value = Coral
+                            mToast(mContext, "Add Title")
 
                         } else {
                             viewModel.insertTask(Task(createTitle,
@@ -530,12 +445,15 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         if (!viewModel.validateTitle(createTitle) && !viewModel.validateDescription(
                                 createDescription)
                         ) {
-                            labelTitleColor.value = Color.Red
-                            labelMessageColor.value = Color.Red
+                            labelTitleColor.value = Coral
+                            labelMessageColor.value = Coral
+                            mToast(mContext, msg = "Empty Fields")
                         } else if (!viewModel.validateDescription(createDescription)) {
-                            labelMessageColor.value = Color.Red
+                            labelMessageColor.value = Coral
+                            mToast(mContext, msg ="Add Message")
                         } else if (!viewModel.validateTitle(createTitle)) {
-                            labelTitleColor.value = Color.Red
+                            labelTitleColor.value = Coral
+                            mToast(mContext, msg ="Add Title")
 
                         } else {
                             viewModel.insertNote(Note(createTitle,

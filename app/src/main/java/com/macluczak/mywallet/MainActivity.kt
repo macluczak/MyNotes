@@ -1,7 +1,9 @@
 package com.macluczak.mywallet
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Window
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -76,6 +78,9 @@ class MainActivity : ComponentActivity(){
             }
         }
     }
+}
+public fun mToast(context: Context, msg: String = "Empty Text"){
+    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
 }
 
 @Composable

@@ -1,5 +1,7 @@
 package com.macluczak.mywallet
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.InspectableModifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -34,6 +37,7 @@ fun NoteDetails(id: Int, viewModel: MainViewModel){
     val systemUiController = rememberSystemUiController()
 
     val note = viewModel.getAllNotes().observeAsState().value?.singleOrNull{it.id == id}
+    val mContext = LocalContext.current
 
 
     if(note != null) {
@@ -153,10 +157,15 @@ fun NoteDetails(id: Int, viewModel: MainViewModel){
                         } + fadeOut(),
                     ) {
                         FloatingActionButton(onClick = {
-                            val newNote = note.copy(title = title.value
-                            , message = message.value, color = colorOfNote.value
-                            )
-                            viewModel.updateNote(newNote)
+                            if(title.value.isNotBlank() && message.value.isNotBlank()) {
+                                val newNote = note.copy(title = title.value,
+                                    message = message.value,
+                                    color = colorOfNote.value
+                                )
+                                viewModel.updateNote(newNote)
+                            }
+
+                            else mToast(mContext)
                                                        },
                             backgroundColor = Color.Black,
                             modifier = Modifier
@@ -177,3 +186,4 @@ fun NoteDetails(id: Int, viewModel: MainViewModel){
         }
     
 }
+
