@@ -403,10 +403,26 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                     }
 
 
-                    Box(modifier = Modifier
-                        .padding(15.dp, 10.dp, 15.dp, 15.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Note.colorOfNote[colorChoose.value])) {
+                    Surface(elevation = 8.dp, color = HippieBlue100, shape = RoundedCornerShape(25.dp) ,modifier = Modifier
+                        .padding(20.dp, 10.dp, 20.dp, 40.dp)
+
+
+                    ) {
+                        if(Build.VERSION.SDK_INT >= 32) {
+                            BoxWithConstraints(modifier = Modifier
+                                .fillMaxSize()
+                                .blur(26.dp)) {
+                                val height = constraints.maxHeight
+                                val width = constraints.maxWidth
+                                CanvasGlass(height = height, width = width)
+
+                            }
+                        }
+                        Box(modifier = Modifier.fillMaxSize()
+                            .background(Note.colorOfNoteA[colorChoose.value]))
+
+
+
 
                         Column() {
                             TextField(value = createTitle,
@@ -424,12 +440,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 label = { Text("Title", style = MaterialTheme.typography.body1) },
                                 colors = TextFieldDefaults.textFieldColors(
                                     backgroundColor = Color.Transparent,
-                                    focusedIndicatorColor = BlueNote,
+                                    focusedIndicatorColor = Note.colorOfNote[colorChoose.value],
                                     unfocusedIndicatorColor = Color.LightGray,
                                     unfocusedLabelColor = labelTitleColor.value,
                                     focusedLabelColor = labelTitleColor.value,
-                                    cursorColor = Color.Black,
-                                    textColor = Color.Black),
+                                    cursorColor = BlackCurrant,
+                                    textColor = BlackCurrant),
 
 
                                 modifier = Modifier
@@ -441,8 +457,8 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             TextField(value = createDescription,
                                 onValueChange = {
                                     createDescription = it
-                                    if (labelMessageColor.value != Color.Black) {
-                                        labelMessageColor.value = Color.Black
+                                    if (labelMessageColor.value != BlackCurrant) {
+                                        labelMessageColor.value = BlackCurrant
                                     }
 
                                 },
@@ -452,12 +468,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                 label = { Text("Note") },
                                 colors = TextFieldDefaults.textFieldColors(
                                     backgroundColor = Color.Transparent,
-                                    focusedIndicatorColor = BlueNote,
+                                    focusedIndicatorColor = Note.colorOfNote[colorChoose.value],
                                     unfocusedIndicatorColor = Color.LightGray,
                                     unfocusedLabelColor = labelMessageColor.value,
                                     focusedLabelColor = labelMessageColor.value,
-                                    cursorColor = Color.Black,
-                                    textColor = Color.Black),
+                                    cursorColor = BlackCurrant,
+                                    textColor = BlackCurrant),
 
 
                                 modifier = Modifier
@@ -563,14 +579,14 @@ fun ColorPicker(colorChoose: Int = 0, onClick: (Int) -> Unit) {
 
 
             Box(modifier = Modifier
-                .padding(15.dp, 10.dp, 0.dp, 10.dp)
+                .padding(20.dp, 10.dp, 0.dp, 10.dp)
                 .clip(RoundedCornerShape(25.dp))
                 .clickable {
                     selectIndexColor.value = it
                     onClick(it)
                 }
                 .border(2.dp,
-                    color = if (selectIndexColor.value == it) Color.White else Color.Black,
+                    color = if (selectIndexColor.value == it) Color.White else BlackCurrant,
                     RoundedCornerShape(25.dp))
                 .background(Note.colorOfNote[it])) {
 

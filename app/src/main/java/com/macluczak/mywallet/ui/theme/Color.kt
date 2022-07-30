@@ -22,6 +22,11 @@ val YellowNote = Color(0xFFFDF2B7)
 val GreenNote = Color(0xFFB2F0B4)
 val TransparentRed = Color(0x80C40000)
 
+val BlueNoteA = Color(0x3385A3FC)
+val GreenNoteA = Color(0x33B2F0B4)
+val PurpleNoteA = Color(0x33E4C7FD)
+val YellowNoteA = Color(0x33FDF2B7)
+
 //#2F4B5A, #3E6478, #4E7D96, #7197AB, #95B1C0, #B8CBD5, #DCE5EA
 val HippieBlue700 = Color(0xFF2F4B5A)
 val HippieBlue600 = Color(0xFF3E6478)
