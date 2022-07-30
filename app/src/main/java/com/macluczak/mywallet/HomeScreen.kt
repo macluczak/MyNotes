@@ -115,7 +115,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
             Surface(elevation = 4.dp ,
                 modifier = Modifier.padding(0.dp,0.dp,0.dp,0.dp),
-                color = HippieBlue100){
+                color = OysterBay){
 
                 SearchView(viewModel = viewModel)
             }
@@ -206,7 +206,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 fun SearchView(viewModel: MainViewModel) {
     Box(modifier = Modifier
         .fillMaxWidth()
-        .padding(20.dp, 15.dp, 20.dp, 10.dp)) {
+        .padding(10.dp, 10.dp, 20.dp, 10.dp)) {
 
         Box(modifier = Modifier
             .fillMaxWidth()

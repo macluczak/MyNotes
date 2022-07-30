@@ -7,9 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -18,18 +16,97 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.ColorUtils
 import androidx.navigation.NavController
 import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
+
+
+@Composable
+fun NoteView(item: Note, viewModel: MainViewModel, navController: NavController, fullsize: Boolean= false) {
+
+    BoxWithConstraints(modifier = Modifier
+        .fillMaxWidth()
+        .padding(30.dp, 10.dp, 30.dp, 0.dp)) {
+
+        val width = maxWidth
+
+
+
+
+
+
+
+        Surface(modifier = Modifier
+            .clickable {
+                navController.navigate(Screen.NoteDetail.withArgs(item.id))
+
+
+            }
+            .fillMaxWidth()
+            .heightIn(min = width / 3), elevation = 7.dp, color =  Note.colorOfNote[item.color],
+        shape = RoundedCornerShape(5.dp, 25.dp, 5.dp, 5.dp)) {
+
+
+
+            Column(
+                modifier = Modifier
+                    .padding(5.dp, 5.dp, 5.dp, 15.dp)
+                    .fillMaxWidth()
+
+
+            )
+            {
+                Text(modifier = Modifier
+                    .padding(15.dp, 0.dp, 25.dp, 0.dp),
+                    text = item.title,
+                    maxLines = 1,
+                    softWrap = true,
+                    style = MaterialTheme.typography.h6,
+                    color = BlackCurrant
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(modifier = Modifier
+                    .padding(15.dp, 0.dp, 25.dp, 0.dp),
+                    text = item.message,
+                    maxLines = 10,
+                    softWrap = true,
+                    style = MaterialTheme.typography.body1,
+                    color = BlackCurrant)
+            }
+
+
+
+
+        }
+
+        Card(modifier = Modifier
+            .align(Alignment.TopEnd)
+            .size(25.dp), elevation = 4.dp
+            , shape = RoundedCornerShape(0.dp, 25.dp, 0.dp, 5.dp),
+            backgroundColor = Color(
+                ColorUtils.blendARGB(Note.colorOfNote[item.color].toArgb(), 0xFF0A0D25.toInt(), 0.1f)
+            ) ){
+
+        }
+    }
+
+}
 
 @Composable
 fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController, fullsize: Boolean= false) {
@@ -45,7 +122,7 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
         BoxWithConstraints(modifier = Modifier
 
             .width(160.dp)
-            .fillMaxWidth(if(fullsize) 1f else 0f)
+            .fillMaxWidth(if (fullsize) 1f else 0f)
             .aspectRatio(1f)
             .background(HippieBlue300)
             .clickable {
@@ -103,7 +180,7 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
 
             Canvas(modifier = Modifier
                 .fillMaxSize()
-                .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp)) {
+                .blur(if (editNoteLiveData.value == true) 1.dp else 0.dp)) {
 
                 drawPath(path = mediumTonePath,
                     color = HippieBlue200)
@@ -123,24 +200,23 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
             )
             {
                 Text(modifier = Modifier
-                    .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp)
                     .padding(horizontal = 15.dp)
                     .align(Alignment.CenterVertically),
                     text = item.title,
                     maxLines = 1,
                     softWrap = true,
                     style = MaterialTheme.typography.h6,
-                    fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
             }
-            Text(modifier = Modifier
-                .padding(15.dp, 15.dp, 10.dp, 10.dp)
-                .align(Alignment.BottomEnd)
-                .blur(if(editNoteLiveData.value == true) 1.dp else 0.dp),
-                text = item.id.toString(),
-                fontSize = 16.sp,
-                color = Color.White)
+            Box(modifier = Modifier.padding(5.dp, 5.dp, 10.dp, 10.dp).align(Alignment.BottomEnd)) {
+                Icon(painter = painterResource(id = if (item.fav) R.drawable.ic_baseline_favorite_24
+                else R.drawable.ic_baseline_favorite_uncheck_24), tint = Color.White,
+                    contentDescription = "fav", modifier = Modifier
+
+                        .size(16.dp)
+                )
+            }
 
             if (editNoteLiveData.value == true) {
                 Box(modifier = Modifier

@@ -74,14 +74,6 @@ fun SecondPage(viewModel: MainViewModel, navController: NavController){
 
             }
 
-
-
-
-//            Text(text = Task.taskState[type.value],
-//                style = MaterialTheme.typography.body1,
-//                color = BlackCurrant,
-//                modifier = Modifier
-//                    .padding(20.dp, 10.dp, 10.dp, 0.dp))
             LazyColumn() {
                 item{
                     Spacer(modifier = Modifier.height(10.dp).fillMaxWidth())
@@ -94,6 +86,16 @@ fun SecondPage(viewModel: MainViewModel, navController: NavController){
                             navController = navController)
 
                     }
+
+                }
+                item {
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(85.dp)
+                    ) {
+
+                    }
+
                 }
             }
         }

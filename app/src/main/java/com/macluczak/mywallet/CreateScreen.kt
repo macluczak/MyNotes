@@ -462,8 +462,6 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                                     }
 
                                 },
-                                maxLines = 8,
-
 
                                 label = { Text("Note") },
                                 colors = TextFieldDefaults.textFieldColors(
