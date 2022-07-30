@@ -37,7 +37,7 @@ val OysterBay = Color(0xFFE3EDF2)
 
 
 
-val FrenchPass = Color(0xFF9FC9DD)
+val FrenchPass = Color(0xB29FC9DD)
 //#FF844B, #FFA378, #FFC2A5, #FFE0D2
 val Coral = Color(0xFFFF844B)
 val CoralLight = Color(0xFFFFC2A5)

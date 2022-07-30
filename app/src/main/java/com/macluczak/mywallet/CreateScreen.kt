@@ -18,9 +18,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.convertTo
@@ -30,6 +33,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
+import com.macluczak.mywallet.navigation.Screen
 import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 import java.text.SimpleDateFormat
@@ -39,8 +43,8 @@ import java.util.*
 fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(color = Color.White)
-    systemUiController.setNavigationBarColor(color = Color.White)
+    systemUiController.setStatusBarColor(color = HippieBlue50)
+    systemUiController.setNavigationBarColor(color = HippieBlue50)
 
     var headerString = ""
 
@@ -63,10 +67,12 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
         mutableStateOf("")
     }
     var startDate by remember {
-        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()).toString())
+        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+            .toString())
     }
     var endDate by remember {
-        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date()).toString())
+        mutableStateOf(SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+            .toString())
     }
     var startTime by remember {
         mutableStateOf("12:00")
@@ -90,51 +96,29 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
     }
 
 
-//    Scaffold(modifier = Modifier.fillMaxSize(),
-//
-//        bottomBar = {
-//            Box(Modifier
-//                .fillMaxWidth()
-//                .padding(15.dp)
-//                .clip(RoundedCornerShape(10.dp))
-//                .clickable {
-//                    if (createType.value == 0) {
-//                        viewModel.insertTask(Task(createTitle, createDescription, taskState.value,
-//                            startDate, endDate, startTime, endTime, dayCheckBox.value))
-//                        navController.popBackStack()
-//                    }
-//                    if (createType.value == 1) {
-//                        viewModel.insertNote(Note(createTitle,
-//                            createDescription,
-//                            colorChoose.value))
-//                        navController.popBackStack()
-//                    }
-//                }
-//                .background(BlueNote)) {
-//                Text(text = "Create", color = Color.White,
-//                    modifier = Modifier
-//                        .padding(15.dp, 10.dp, 15.dp, 10.dp)
-//                        .align(Alignment.Center))
-//
-//            }
-//        }
-//
-//
-//    ) {
 
-    Box()
+
+
+    BoxWithConstraints(modifier = Modifier.background(HippieBlue50))
     {
+
+        val height = constraints.maxHeight
+        val width = constraints.maxWidth
+
+        CanvasBackground(height = height, width = width)
 
 
         Column(modifier = Modifier
             .fillMaxSize()
+            .background(Color.Transparent)
             .padding(0.dp, 0.dp, 0.dp, 0.dp)
         ) {
 
             Text(text = "Create ${headerString}",
                 style = MaterialTheme.typography.h6,
+                color= BlackCurrant,
                 modifier = Modifier
-                    .padding(15.dp, 0.dp, 10.dp, 0.dp))
+                    .padding(20.dp, 30.dp, 10.dp, 0.dp))
 
             ChooseType() {
                 createType.value = it
@@ -146,18 +130,22 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                     taskState.value = it
                 }
 
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp))
 
-                Box(modifier = Modifier
-                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(BlueNoteLight)) {
+
+                Card(modifier = Modifier
+                    .padding(20.dp, 10.dp, 20.dp, 10.dp)
+                   , backgroundColor = HippieBlue100,
+                            elevation = 7.dp) {
 
                     Column() {
                         TextField(value = createTitle,
                             onValueChange = {
                                 createTitle = it
-                                if (labelTitleColor.value != Color.Black) {
-                                    labelTitleColor.value = Color.Black
+                                if (labelTitleColor.value != BlackCurrant) {
+                                    labelTitleColor.value = BlackCurrant
                                 }
 
                             },
@@ -167,14 +155,13 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                             label = { Text("Title") },
                             colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = BlueNoteLight,
-                                focusedIndicatorColor = BlueNote,
-                                unfocusedIndicatorColor = Color.LightGray,
+                                backgroundColor = HippieBlue100,
+                                focusedIndicatorColor = HippieBlue,
+                                unfocusedIndicatorColor = HippieBlue300,
                                 unfocusedLabelColor = labelTitleColor.value,
                                 focusedLabelColor = labelTitleColor.value,
-                                cursorColor = Color.Black,
-                                textColor = Color.Black),
-
+                                cursorColor = BlackCurrant,
+                                textColor = BlackCurrant),
 
 
                             modifier = Modifier
@@ -188,8 +175,8 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         TextField(value = createDescription,
                             onValueChange = {
                                 createDescription = it
-                                if (labelMessageColor.value != Color.Black) {
-                                    labelMessageColor.value = Color.Black
+                                if (labelMessageColor.value != BlackCurrant) {
+                                    labelMessageColor.value = BlackCurrant
                                 }
 
                             },
@@ -198,13 +185,13 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                             label = { Text("Description") },
                             colors = TextFieldDefaults.textFieldColors(
-                                backgroundColor = BlueNoteLight,
-                                focusedIndicatorColor = BlueNote,
-                                unfocusedIndicatorColor = Color.LightGray,
+                                backgroundColor = HippieBlue100,
+                                focusedIndicatorColor = HippieBlue,
+                                unfocusedIndicatorColor = HippieBlue300,
                                 unfocusedLabelColor = labelMessageColor.value,
                                 focusedLabelColor = labelMessageColor.value,
-                                cursorColor = Color.Black,
-                                textColor = Color.Black),
+                                cursorColor = BlackCurrant,
+                                textColor = BlackCurrant),
 
 
                             modifier = Modifier
@@ -220,24 +207,40 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                 }
 
-                Box(modifier = Modifier
-                    .padding(15.dp, 0.dp, 15.dp, 10.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(BlueNoteLight)) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp, 5.dp, 20.dp, 5.dp)
+
+
+                        .clip(RoundedCornerShape(25.dp))
+                        .background(HippieBlue200)
+
+                ) {
+                    Box(modifier = Modifier
+                        .padding(1.dp, 1.dp, 1.dp, 1.dp)
+
+                        .clip(RoundedCornerShape(25.dp))
+                        .align(Alignment.Center)
+                        .background(HippieBlue50))
+                    {
 
                     Column(modifier = Modifier
-                        .fillMaxWidth()) {
+                        .fillMaxWidth()
+                        ) {
                         Row(modifier = Modifier
                             .padding(15.dp, 10.dp, 15.dp, 10.dp)
                             .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "Whole Day")
+                            Text(text = "Whole Day", color = BlackCurrant)
                             Switch(checked = dayCheckBox.value, onCheckedChange = {
                                 dayCheckBox.value = it
                             },
-                                enabled = true
-//                            colors = SwitchDefaults.colors()
+                                enabled = true, colors = SwitchDefaults.colors(
+                                    checkedThumbColor = Coral
+                                )
+//
                             )
                         }
                         Row(modifier = Modifier
@@ -245,7 +248,29 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "Start")
+                            Text(text = "End", color =BlackCurrant)
+                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                                ShowDatePicker(context = LocalContext.current) {
+                                    endDate = it
+                                }
+                                if (!dayCheckBox.value) {
+                                    ShowTimePicker(context = LocalContext.current,
+                                        initHour = 12,
+                                        initMinute = 0) {
+                                        endTime = it
+                                    }
+                                }
+
+
+                            }
+
+                        }
+                        Row(modifier = Modifier
+                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                            .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(text = "Start", color =BlackCurrant)
                             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                                 ShowDatePicker(context = LocalContext.current) {
                                     startDate = it
@@ -264,34 +289,14 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
 
                         }
 
-                        Row(modifier = Modifier
-                            .padding(15.dp, 10.dp, 15.dp, 10.dp)
-                            .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween) {
-                            Text(text = "End")
-                            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                                ShowDatePicker(context = LocalContext.current) {
-                                    endDate = it
-                                }
-                                if (!dayCheckBox.value) {
-                                    ShowTimePicker(context = LocalContext.current,
-                                        initHour = 12,
-                                        initMinute = 0) {
-                                        endTime = it
-                                    }
-                                }
 
-
-                            }
-
-                        }
 
 
                     }
 
                 }
             }
+                }
             if (createType.value == 1) {
 
                 Column(modifier = Modifier
@@ -397,7 +402,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                             labelMessageColor.value = Color.Red
                         } else if (createDescription.isBlank()) {
                             labelMessageColor.value = Color.Red
-                        } else if (createTitle.isBlank() ) {
+                        } else if (createTitle.isBlank()) {
                             labelTitleColor.value = Color.Red
 
                         } else {
@@ -413,7 +418,9 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         }
                     }
                     if (createType.value == 1) {
-                        if (!viewModel.validateTitle(createTitle) && !viewModel.validateDescription(createDescription)) {
+                        if (!viewModel.validateTitle(createTitle) && !viewModel.validateDescription(
+                                createDescription)
+                        ) {
                             labelTitleColor.value = Color.Red
                             labelMessageColor.value = Color.Red
                         } else if (!viewModel.validateDescription(createDescription)) {
@@ -421,7 +428,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         } else if (!viewModel.validateTitle(createTitle)) {
                             labelTitleColor.value = Color.Red
 
-                        }else {
+                        } else {
                             viewModel.insertNote(Note(createTitle,
                                 createDescription,
                                 colorChoose.value))
@@ -429,7 +436,7 @@ fun CreateScreen(viewModel: MainViewModel, navController: NavController) {
                         }
                     }
                 }
-                .background(BlueNote),
+                .background(Coral),
         ) {
             Text(text = "Create", color = Color.White,
                 modifier = Modifier
@@ -513,12 +520,16 @@ fun ShowDatePicker(context: Context, onSet: (String) -> Unit) {
     )
 
     Button(
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = HippieBlue
+
+        ),
         onClick = {
             mDatePickerDialog.show()
         },
 //            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0XFF0F9D58))
     ) {
-        Text(text = "${mDate.value}", color = Color.White)
+        Text(text = "${mDate.value}", color = OysterBay)
     }
 
 }
@@ -538,10 +549,13 @@ fun ShowTimePicker(context: Context, initHour: Int, initMinute: Int, onSet: (Str
 
         }, initHour, initMinute, false
     )
-    Button(onClick = {
+    Button(colors = ButtonDefaults.buttonColors(
+        backgroundColor = HippieBlue
+
+    ),onClick = {
         timePickerDialog.show()
     }) {
-        Text(text = "${time.value}")
+        Text(text = "${time.value}", color = OysterBay)
     }
 }
 
@@ -561,10 +575,10 @@ fun ChooseType(onClick: (Int) -> Unit) {
                     selectIndexType.value = it
                     onClick(it)
                 }
-                .background(if (selectIndexType.value == it) BlueNote else Color.White)) {
+                .background(if (selectIndexType.value == it) HippieBlue else HippieBlue50)) {
 
                 Text(text = checkType[it],
-                    color = if (selectIndexType.value == it) Color.White else BlueNote,
+                    color = if (selectIndexType.value == it) Color.White else HippieBlue,
                     modifier = Modifier
                         .padding(15.dp, 10.dp, 15.dp, 10.dp))
 
@@ -577,7 +591,8 @@ fun ChooseType(onClick: (Int) -> Unit) {
 
 @Composable
 fun chooseTaskState(state: Int = 0, unCheck: Boolean = false, onClick: (Int) -> Unit) {
-    val checkType = listOf("to do", "in progress", "done")
+    val checkType = listOf("To-Do", "In Progress", "Done")
+
     val initVal = if (unCheck) 3 else state
     val selectIndexType = remember {
         mutableStateOf(initVal)
@@ -588,8 +603,11 @@ fun chooseTaskState(state: Int = 0, unCheck: Boolean = false, onClick: (Int) -> 
         items(checkType.size) {
             Box(
                 modifier = Modifier
-                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                    .clip(RoundedCornerShape(10.dp))
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(if (selectIndexType.value == 0 && selectIndexType.value == it) BlueNoteLight
+                    else if (selectIndexType.value == 1 && selectIndexType.value == it) CoralLight
+                    else if (selectIndexType.value == 2 && selectIndexType.value == it) GreenNote
+                    else Color.Transparent)
                     .clickable {
                         if (selectIndexType.value == it && unCheck) {
                             selectIndexType.value = 3
@@ -600,15 +618,135 @@ fun chooseTaskState(state: Int = 0, unCheck: Boolean = false, onClick: (Int) -> 
                             onClick(it)
                         }
                     }
-                    .background(if (selectIndexType.value == it) BlueNote else Color.White),
+
+                    .padding(10.dp, 5.dp, 10.dp, 5.dp)
+
+
             ) {
 
                 Text(text = checkType[it],
-                    color = if (selectIndexType.value == it) Color.White else BlueNote,
-                    modifier = Modifier
-                        .padding(15.dp, 10.dp, 15.dp, 10.dp))
+                    color = if (selectIndexType.value == 0 && selectIndexType.value == it) BlueNote
+                    else if (selectIndexType.value == 1 && selectIndexType.value == it) Coral
+                    else if (selectIndexType.value == 2 && selectIndexType.value == it) GreenDone
+                    else HippieBlue,
+                    style = MaterialTheme.typography.body1)
 
             }
+        }
+    }
+
+}
+
+@Preview
+@Composable
+fun CreateScreenPreview(){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp, 5.dp, 20.dp, 5.dp)
+            .height(130.dp)
+
+            .clip(RoundedCornerShape(25.dp))
+            .background(HippieBlue200)
+
+    ) {
+        Box(modifier = Modifier
+            .padding(1.dp, 1.dp, 1.dp, 1.dp)
+            .fillMaxSize()
+            .clip(RoundedCornerShape(25.dp))
+            .align(Alignment.Center)
+            .background(HippieBlue50))
+        {
+
+            Column(modifier = Modifier
+                .fillMaxWidth()) {
+                Row(modifier = Modifier
+                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(text = "Whole Day", color = BlackCurrant)
+                    Switch(checked = true, colors = SwitchDefaults.colors(
+                        checkedThumbColor = Coral
+                    ), onCheckedChange = {
+
+                    },
+                        enabled = true
+//                            colors = SwitchDefaults.colors()
+                    )
+                }
+                Row(modifier = Modifier
+                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(text = "End", color =BlackCurrant)
+                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        ShowDatePicker(context = LocalContext.current) {
+
+                        }
+                        if (true) {
+                            ShowTimePicker(context = LocalContext.current,
+                                initHour = 12,
+                                initMinute = 0) {
+
+                            }
+                        }
+
+
+                    }
+
+                }
+                Row(modifier = Modifier
+                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(text = "Start", color =BlackCurrant)
+                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        ShowDatePicker(context = LocalContext.current) {
+
+
+                        }
+                        if (true) {
+                            ShowTimePicker(context = LocalContext.current,
+                                initHour = 12,
+                                initMinute = 0) {
+
+                            }
+                        }
+
+
+                    }
+
+                }
+
+                Row(modifier = Modifier
+                    .padding(15.dp, 10.dp, 15.dp, 10.dp)
+                    .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(text = "End", color =BlackCurrant)
+                    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                        ShowDatePicker(context = LocalContext.current) {
+
+                        }
+                        if (true) {
+                            ShowTimePicker(context = LocalContext.current,
+                                initHour = 12,
+                                initMinute = 0) {
+
+                            }
+                        }
+
+
+                    }
+
+                }
+
+
+            }
+
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.Center
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -93,6 +94,8 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
     val listTaskLiveData = viewModel.getAllTasks()
     val listTask by listTaskLiveData.observeAsState(initial = emptyList())
 
+    var searchByWord = viewModel.searchWord.observeAsState()
+
     Card(modifier = Modifier
         .fillMaxSize()
         .clip(RoundedCornerShape(25.dp, 0.dp, 0.dp, 0.dp))
@@ -113,82 +116,70 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
             SearchView(viewModel = viewModel)
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp, 0.dp, 20.dp, 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "My Notes",
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically),
-                    style = MaterialTheme.typography.h6,
-                    color = BlackCurrant
-                )
+            LazyColumn() {
 
-//                Text(text = editNoteText.value,
-//
-//                    style = MaterialTheme.typography.body1,
-//                    textDecoration = TextDecoration.Underline,
-//                    modifier = Modifier
-//                        .align(Alignment.Bottom)
-//                        .clickable {
-//
-//                            if (viewModel.getNoteEdit().value == false) {
-//                                viewModel.noteEditable()
-//                                editNoteText.value = "Cancel"
-//
-//                            } else {
-//                                viewModel.noteUneditable()
-//                                editNoteText.value = "Edit"
-//                            }
-//
-//                        },
-//                    color = BlackCurrant
-//
-//                )
+                item {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp, 0.dp, 20.dp, 10.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = "My Notes",
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            style = MaterialTheme.typography.h6,
+                            color = BlackCurrant
+                        )
+
+
+                    }
+                }
+
+
+
+                item {
+                    DisplayNotes(notes = listNote,
+                        viewModel = viewModel,
+                        navController = navController)
+                }
+
+                item {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp, 20.dp, 20.dp, 10.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = "Let's do the Tasks",
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            style = MaterialTheme.typography.h6,
+                            color = BlackCurrant
+                        )
+
+                    }
+                }
+
+                    var tasksFiltered = listTask.filter {
+                        it.title.contains(searchByWord.value ?: "")
+                    }
+
+                        items(tasksFiltered.size) { index ->
+                            if (tasksFiltered.isNotEmpty()) {
+                                TaskItem(item = tasksFiltered[index],
+                                    viewModel = viewModel,
+                                    navController = navController)
+                            }
+
+                        }
+                        item {
+                            Box(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(85.dp)
+                            ) {
+
+                            }
+
+                        }
+
             }
-
-
-            DisplayNotes(notes = listNote, viewModel = viewModel, navController = navController)
-
-            val markTaskText = remember { mutableStateOf("Mark as Done") }
-            if(viewModel.getMarkTask().value == true){
-                markTaskText.value = "Cancel"
-            }
-
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp, 20.dp, 20.dp, 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "Let's do the Tasks",
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically),
-                    style = MaterialTheme.typography.h6,
-                    color = BlackCurrant
-                )
-
-//                Text(text = markTaskText.value,
-//                    style = MaterialTheme.typography.body1,
-//                    textDecoration = TextDecoration.Underline,
-//                    modifier = Modifier
-//                        .align(Alignment.Bottom)
-//                        .clickable {
-//
-//                            if (viewModel.markAsDone.value == false) {
-//                                viewModel.asDone()
-//                                markTaskText.value = "Cancel"
-//
-//                            } else {
-//                                viewModel.asDoneCancel()
-//                                markTaskText.value = "Mark as Done"
-//                            }
-//
-//                        },
-//                    color = BlackCurrant
-//
-//                )
-            }
-
-            DisplayTasks(tasks = listTask, viewModel = viewModel, navController = navController)
 
         }
 

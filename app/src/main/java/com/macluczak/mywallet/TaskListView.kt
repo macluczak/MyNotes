@@ -89,27 +89,6 @@ fun TaskItem(item: Task, viewModel: MainViewModel, navController: NavController)
 
 
                 )
-
-
-
-                if (viewModel.markAsDone.value == true) {
-                    Box(modifier = Modifier
-                        .aspectRatio(1f)
-                        .fillMaxHeight()
-                        .background(GreenDone)
-
-                    ) {
-                        Icon(painter = painterResource(id = R.drawable.ic_baseline_check_24),
-                            contentDescription = "Done",
-                            modifier = Modifier
-                                .size(32.dp)
-                                .align(Alignment.Center),
-                            tint = Color.White)
-                    }
-
-                }
-
-
             }
 
             Column(modifier = Modifier.align(Alignment.BottomCenter)) {
