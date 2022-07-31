@@ -70,3 +70,62 @@ fun CanvasGlass(height: Int, width: Int, style: Int = 0){
 
     }
 }
+
+@Composable
+fun CanvasGlassTask(height: Int, width: Int, style: Int = 0){
+
+    val mediumTonePoint1 = Offset(0f, height *0f)
+    val mediumTonePoint2 = Offset(width * 0.1f, height * 0f)
+    val mediumTonePoint3 = Offset(width * 0.4f, height * 0f)
+    val mediumTonePoint4 = Offset(width * 0.75f, height * 0.5f)
+    val mediumTonePoint5 = Offset(width * 1.3f, -height.toFloat())
+
+    val mediumTonePath = Path().apply {
+
+        moveTo(mediumTonePoint1.x, mediumTonePoint1.y)
+
+        calcFromTo(mediumTonePoint1, mediumTonePoint2)
+        calcFromTo(mediumTonePoint2, mediumTonePoint3)
+        calcFromTo(mediumTonePoint3, mediumTonePoint4)
+        calcFromTo(mediumTonePoint4, mediumTonePoint5)
+
+        lineTo(width.toFloat() + 100f, height.toFloat() + 100f)
+        lineTo(-100f, height.toFloat() + 100f)
+        close()
+
+    }
+
+    val lightTonePoint1 = Offset(0f, height * 0.35f)
+    val lightTonePoint2 = Offset(width * 0.1f, height * 0.55f)
+    val lightTonePoint3 = Offset(width * 0.4f, height * 0.80f)
+    val lightTonePoint4 = Offset(width * 0.65f, height* 0.5f)
+    val lightTonePoint5 = Offset(width * 1.4f, height* 1.5f)
+
+    val lightTonePath = Path().apply {
+
+        moveTo(lightTonePoint1.x, lightTonePoint1.y)
+
+        calcFromTo(lightTonePoint1, lightTonePoint2)
+        calcFromTo(lightTonePoint2, lightTonePoint3)
+        calcFromTo(lightTonePoint3, lightTonePoint4)
+        calcFromTo(lightTonePoint4, lightTonePoint5)
+
+        lineTo(width.toFloat() + 100f, height.toFloat() + 100f)
+        lineTo(-100f, height.toFloat() + 100f)
+        close()
+
+    }
+
+    Canvas(modifier = Modifier
+        .fillMaxSize()
+    ){
+
+        drawPath(path = mediumTonePath,
+            color = HippieBlue200)
+
+        drawPath(path = lightTonePath,
+            color = HippieBlue100)
+
+
+    }
+}

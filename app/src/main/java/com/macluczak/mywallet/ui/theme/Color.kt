@@ -26,6 +26,8 @@ val BlueNoteA = Color(0x3385A3FC)
 val GreenNoteA = Color(0x33B2F0B4)
 val PurpleNoteA = Color(0x33E4C7FD)
 val YellowNoteA = Color(0x33FDF2B7)
+val HippieBlueA = Color(0x804E7D96)
+val HippieBlue700A = Color(0x802F4B5A)
 
 //#2F4B5A, #3E6478, #4E7D96, #7197AB, #95B1C0, #B8CBD5, #DCE5EA
 val HippieBlue700 = Color(0xFF2F4B5A)
@@ -42,7 +44,7 @@ val OysterBay = Color(0xFFE3EDF2)
 
 
 
-val FrenchPass = Color(0xB09FC9DD)
+val FrenchPass = Color(0x4D9FC9DD)
 //#FF844B, #FFA378, #FFC2A5, #FFE0D2
 val Coral = Color(0xFFFF844B)
 val CoralLight = Color(0xFFFFC2A5)

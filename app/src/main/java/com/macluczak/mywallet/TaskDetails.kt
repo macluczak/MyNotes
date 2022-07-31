@@ -1,10 +1,12 @@
 package com.macluczak.mywallet
 
 import android.graphics.Paint
+import android.os.Build
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -16,38 +18,53 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.macluczak.mywallet.data.note.Note
 import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
-fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController){
+fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = HippieBlue100)
     systemUiController.setNavigationBarColor(
-        color = HippieBlue50
+        color = HippieBlue100
     )
 
-    val task = viewModel.getAllTasks().observeAsState().value?.singleOrNull{it.id == id}
+    val task = viewModel.getAllTasks().observeAsState().value?.singleOrNull { it.id == id }
 
     val taskState = remember {
         mutableStateOf(task!!.state)
     }
 
+    BoxWithConstraints(modifier = Modifier
+        .background(HippieBlue50)
+        .fillMaxSize()
+        .blur(20.dp))
+    {
+
+        val height = constraints.maxHeight
+        val width = constraints.maxWidth
+
+        CanvasBackground(height = height, width = width)
+    }
+
     Box(Modifier
         .fillMaxSize()
-        .background(HippieBlue50)){
+    ) {
 
-        Surface( shape = CircleShape, color = Coral,
+        Surface(shape = CircleShape, color = Coral,
             elevation = 7.dp, modifier =
             Modifier
                 .fillMaxWidth()
@@ -60,7 +77,9 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
 
         ) {
             Box(Modifier.align(Alignment.Center)) {
-                Text(text = "Complete! ", color = Color.White , style = MaterialTheme.typography.body1,
+                Text(text = "Complete! ",
+                    color = Color.White,
+                    style = MaterialTheme.typography.body1,
                     modifier = Modifier
                         .padding(15.dp, 10.dp, 15.dp, 10.dp)
                         .align(Alignment.Center))
@@ -69,7 +88,7 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
         }
         Column() {
             Surface(modifier = Modifier,
-                elevation = 4.dp, color = HippieBlue100) {
+                elevation = 7.dp, color = HippieBlue100) {
 
                 Column(Modifier
                     .fillMaxWidth()
@@ -77,7 +96,7 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
 
                     Row(Modifier
                         .fillMaxWidth()
-                        .padding(0.dp, 0.dp, 0.dp, 5.dp), Arrangement.SpaceBetween){
+                        .padding(0.dp, 0.dp, 0.dp, 5.dp), Arrangement.SpaceBetween) {
                         Text(text = task!!.title, style = MaterialTheme.typography.h6,
                             color = BlackCurrant,
                             maxLines = 1,
@@ -104,7 +123,7 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
 
             Row(Modifier
                 .fillMaxSize()
-                .padding(0.dp, 30.dp, 0.dp, 80.dp)){
+                .padding(0.dp, 30.dp, 0.dp, 80.dp)) {
                 val pathEffect = PathEffect.dashPathEffect(floatArrayOf(25f, 15f), 0f)
 
                 Column(Modifier
@@ -174,35 +193,58 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
                         .weight(5.8f))
                     {
                         Surface(shape = RoundedCornerShape(5.dp, 5.dp, 50.dp, 5.dp),
-                            elevation = 7.dp,
-                            color = HippieBlue,
+                            elevation = 10.dp,
+                            color = if (Build.VERSION.SDK_INT >= 32) HippieBlue50 else HippieBlue,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .aspectRatio(1.33f)) {
+                                .aspectRatio(1.20f)) {
 
-
-                            Column() {
-                                Row(Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 5.dp, 0.dp, 15.dp),
-                                    horizontalArrangement = Arrangement.SpaceAround) {
-                                    Text(text = task!!.startDate,
-                                        color = Color.White,
-                                        style = MaterialTheme.typography.h6)
-
-                                    Text(text = task!!.startTime,
-                                        color = Color.White,
-                                        fontWeight = FontWeight.Thin,
-                                        style = MaterialTheme.typography.h6)
+                            if (Build.VERSION.SDK_INT >= 32) {
+                                BoxWithConstraints(modifier = Modifier
+                                    .fillMaxSize()
+                                    .blur(50.dp)) {
+                                    val height = constraints.maxHeight
+                                    val width = constraints.maxWidth
+                                    CanvasGlassTask(height = height, width = width)
 
                                 }
-                                Row(Modifier
-                                    .fillMaxWidth()
-                                    .padding(10.dp, 5.dp, 5.dp, 15.dp)) {
-                                    Text(text = task!!.description,
-                                        color = Color.White,
-                                        maxLines = 8,
-                                        style = MaterialTheme.typography.body1)
+
+                                Box(modifier = Modifier
+                                    .fillMaxSize()
+                                    .background( HippieBlueA))
+
+                            }
+
+
+
+                            LazyColumn() {
+                                item {
+                                    Row(Modifier
+                                        .fillMaxWidth()
+                                        .padding(15.dp, 5.dp, 15.dp, 15.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween) {
+                                        Text(text = "Start: ${task!!.startDate}",
+                                            color = Color.White,
+                                            style = MaterialTheme.typography.h6)
+
+                                        if (!task.wholeDay) {
+                                            Text(text = task!!.startTime,
+                                                color = Color.White,
+                                                fontWeight = FontWeight.Thin,
+                                                fontStyle = FontStyle.Italic,
+                                                style = MaterialTheme.typography.h6)
+                                        }
+
+                                    }
+                                }
+                                item {
+                                    Row(Modifier
+                                        .fillMaxWidth()
+                                        .padding(10.dp, 5.dp, 5.dp, 15.dp)) {
+                                        Text(text = task!!.description,
+                                            color = Color.White,
+                                            style = MaterialTheme.typography.body1)
+                                    }
                                 }
 
                             }
@@ -214,28 +256,48 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
                         .fillMaxSize()
                         .weight(3.2f))
                     {
-                    Text(
-                        text = "Current, ${Task.taskState[taskState.value]}",
-                        style = MaterialTheme.typography.h6,
-                        color = HippieBlue200,
-                        modifier = Modifier.align(TopStart)
-                    )}
+                        Text(
+                            text = "Current, ${Task.taskState[taskState.value]}",
+                            style = MaterialTheme.typography.h6,
+                            color = HippieBlue,
+                            modifier = Modifier.align(TopStart)
+                        )
+                    }
                     Box(Modifier
                         .fillMaxSize()
-                        .weight(1.3f)){
+                        .weight(1.3f)) {
 
-                        Text(
-                            text = "Deadline: ${task!!.endDate}",
-                            style = MaterialTheme.typography.h6,
-                            color = HippieBlue200,
-                            modifier = Modifier.align(TopStart)
-                        )}
+                        Row(Modifier
+                            .fillMaxWidth()
+                            .padding(0.dp, 0.dp, 20.dp, 0.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween) {
+
+                            Text(
+                                text = "Deadline: ${task!!.endDate}",
+                                style = MaterialTheme.typography.h6,
+                                color = HippieBlue,
+
+                                )
+
+                            if (!task.wholeDay) {
+                                Text(
+                                    text = task.endTime,
+                                    style = MaterialTheme.typography.h6,
+                                    color = HippieBlue,
+                                    fontWeight = FontWeight.Thin,
+                                    fontStyle = FontStyle.Italic
+                                )
+                            }
+
+                        }
 
                     }
 
                 }
 
             }
+
+        }
 //            Column(Modifier
 //                .fillMaxSize()
 //                .weight(3f)
@@ -330,8 +392,8 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
 //            }
 
 
-        }
     }
+}
 
 
 
