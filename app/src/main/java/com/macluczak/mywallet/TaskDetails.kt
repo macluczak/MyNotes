@@ -1,5 +1,6 @@
 package com.macluczak.mywallet
 
+import android.graphics.Paint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,24 +14,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.macluczak.mywallet.data.task.Task
 import com.macluczak.mywallet.ui.theme.*
 import com.macluczak.mywallet.viewmodels.MainViewModel
 
 @Composable
 fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController){
     val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(color = Color.White)
+    systemUiController.setStatusBarColor(color = HippieBlue100)
     systemUiController.setNavigationBarColor(
-        color = Color.White
+        color = HippieBlue50
     )
 
     val task = viewModel.getAllTasks().observeAsState().value?.singleOrNull{it.id == id}
@@ -39,7 +43,9 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
         mutableStateOf(task!!.state)
     }
 
-    Box(Modifier.fillMaxSize()){
+    Box(Modifier
+        .fillMaxSize()
+        .background(HippieBlue50)){
 
         Surface( shape = CircleShape, color = Coral,
             elevation = 7.dp, modifier =
@@ -62,33 +68,186 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
             }
         }
         Column() {
-            Column(Modifier
-                .fillMaxSize()
-                .weight(1f)
-                ) {
-                Text(modifier = Modifier.padding(15.dp, 0.dp, 0.dp, 0.dp),
-                    text = task?.title.toString(),
-                    style = MaterialTheme.typography.h4)
-                chooseTaskState(state = taskState.value) {
-                    taskState.value = it
-                    val newTask = task!!.copy(state = taskState.value)
-                    viewModel.updateTask(newTask)
+            Surface(modifier = Modifier,
+                elevation = 4.dp, color = HippieBlue100) {
+
+                Column(Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 30.dp, 0.dp, 10.dp)) {
+
+                    Row(Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp, 0.dp, 0.dp, 5.dp), Arrangement.SpaceBetween){
+                        Text(text = task!!.title, style = MaterialTheme.typography.h6,
+                            color = BlackCurrant,
+                            maxLines = 1,
+                            modifier = Modifier
+                                .padding(20.dp, 0.dp, 15.dp, 0.dp))
+//                        Text(text = Task.taskState[type.value],
+//                            style = MaterialTheme.typography.body1,
+//                            color = BlackCurrant,
+//                            modifier = Modifier
+//                                .padding(20.dp, 0.dp, 20.dp, 0.dp))
+                    }
+                    chooseTaskState(state = taskState.value) {
+                        taskState.value = it
+                        val newtask = task!!.copy(state = it)
+                        viewModel.updateTask(newtask)
+
+
+                    }
+
                 }
 
-
-            }
-            Column(Modifier
-                .fillMaxSize()
-                .weight(3f)
-                ) {
-                Text(text = task?.description.toString())
             }
 
-            Box(modifier = Modifier
-                .padding(15.dp, 0.dp, 15.dp, 0.dp)
-                .fillMaxSize()
-                .weight(1f)) {
 
+            Row(Modifier
+                .fillMaxSize()
+                .padding(0.dp, 30.dp, 0.dp, 80.dp)){
+                val pathEffect = PathEffect.dashPathEffect(floatArrayOf(25f, 15f), 0f)
+
+                Column(Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+                    .padding(0.dp, 27.dp, 0.dp, 40.dp), verticalArrangement = Arrangement.Center) {
+                    Icon(painter = painterResource(id = R.drawable.ic_outline_circle_24),
+                        "circle",
+                        modifier =
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(24.dp)
+                            .padding(0.dp, 0.dp, 0.dp, 0.dp),
+                        tint = HippieBlue400)
+
+                    Canvas(Modifier
+                        .weight(2f)
+                        .align(Alignment.CenterHorizontally)) {
+
+                        drawLine(
+                            color = HippieBlue400,
+                            start = Offset(0f, 0f),
+                            end = Offset(0f, size.height),
+                            strokeWidth = 2f
+                        )
+
+                    }
+
+                    Icon(painter = painterResource(id = R.drawable.ic_outline_circle_24),
+                        "circle",
+                        modifier =
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(24.dp)
+                            .padding(0.dp, 0.dp, 0.dp, 0.dp),
+                        tint = HippieBlue400)
+
+                    Canvas(Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterHorizontally)) {
+
+                        drawLine(
+                            color = HippieBlue400,
+                            start = Offset(0f, 0f),
+                            end = Offset(0f, size.height),
+                            strokeWidth = 2f
+                        )
+
+                    }
+                    Icon(painter = painterResource(id = R.drawable.ic_baseline_circle_24),
+                        "circle",
+                        modifier =
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(24.dp)
+                            .padding(0.dp, 0.dp, 0.dp, 0.dp),
+                        tint = HippieBlue400)
+                }
+
+                Column(Modifier
+                    .fillMaxSize()
+                    .weight(6f)
+                    .padding(0.dp, 30.dp, 30.dp, 0.dp)) {
+
+                    Box(Modifier
+                        .fillMaxSize()
+                        .weight(5.8f))
+                    {
+                        Surface(shape = RoundedCornerShape(5.dp, 5.dp, 50.dp, 5.dp),
+                            elevation = 7.dp,
+                            color = HippieBlue,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(1.33f)) {
+
+
+                            Column() {
+                                Row(Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 5.dp, 0.dp, 15.dp),
+                                    horizontalArrangement = Arrangement.SpaceAround) {
+                                    Text(text = task!!.startDate,
+                                        color = Color.White,
+                                        style = MaterialTheme.typography.h6)
+
+                                    Text(text = task!!.startTime,
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Thin,
+                                        style = MaterialTheme.typography.h6)
+
+                                }
+                                Row(Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp, 5.dp, 5.dp, 15.dp)) {
+                                    Text(text = task!!.description,
+                                        color = Color.White,
+                                        maxLines = 8,
+                                        style = MaterialTheme.typography.body1)
+                                }
+
+                            }
+
+
+                        }
+                    }
+                    Box(Modifier
+                        .fillMaxSize()
+                        .weight(3.2f))
+                    {
+                    Text(
+                        text = "Current, ${Task.taskState[taskState.value]}",
+                        style = MaterialTheme.typography.h6,
+                        color = HippieBlue200,
+                        modifier = Modifier.align(TopStart)
+                    )}
+                    Box(Modifier
+                        .fillMaxSize()
+                        .weight(1.3f)){
+
+                        Text(
+                            text = "Deadline: ${task!!.endDate}",
+                            style = MaterialTheme.typography.h6,
+                            color = HippieBlue200,
+                            modifier = Modifier.align(TopStart)
+                        )}
+
+                    }
+
+                }
+
+            }
+//            Column(Modifier
+//                .fillMaxSize()
+//                .weight(3f)
+//                ) {
+//                Text(text = task?.description.toString())
+//            }
+
+//            Box(modifier = Modifier
+//                .padding(15.dp, 0.dp, 15.dp, 0.dp)
+//                .fillMaxSize()
+//                .weight(1f)) {
+//
 
 
 //                Card(modifier = Modifier
@@ -168,7 +327,7 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
 //
 //
 //                }
-            }
+//            }
 
 
         }
@@ -176,4 +335,3 @@ fun TaskDetails(id: Int, viewModel: MainViewModel, navController: NavController)
 
 
 
-}
