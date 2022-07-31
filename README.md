@@ -10,6 +10,14 @@
   </tr> 
 </table>
 
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182004632-4437e848-f3c5-4598-b54d-7d5d9079f7ab.png"  alt="1" ></td>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182026653-6de81571-c138-4e8d-976c-d654e7fb3b2d.png"  alt="2" ></td>
+     
+  </tr> 
+</table>
+
 
 
 <table>
