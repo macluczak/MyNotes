@@ -100,7 +100,7 @@ fun Navigation(viewModel: MainViewModel) {
                 }
             )) { entry ->
                 showBottomMenu.value = false
-                TaskDetails(id = entry.arguments!!.getInt("id"), viewModel = viewModel)
+                TaskDetails(id = entry.arguments!!.getInt("id"), viewModel = viewModel, navController = navController)
 
 
             }

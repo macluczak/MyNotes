@@ -143,38 +143,12 @@ fun TaskItem(item: Task, viewModel: MainViewModel, navController: NavController)
 
 
                 }
-//                if(!item!!.wholeDay) {
-//                    Row(modifier = Modifier.padding(30.dp, 0.dp, 30.dp, 0.dp),
-//                        horizontalArrangement = Arrangement.SpaceAround) {
-//
-//                        Column() {
-//                            Text(text = item!!.startTime,
-//                                style = MaterialTheme.typography.body1)
-//
-//                        }
-//                        Spacer(modifier = Modifier.weight(1f))
-//
-//                        Column() {
-//
-//                            Text(text = item!!.endTime, style = MaterialTheme.typography.body1)
-//
-//                        }
-//
-//
-//                    }
-//                }
-//                else{
-//                    Spacer(modifier = Modifier.size(15.dp))
-//                }
 
 
             }
 
-        }//        Text(modifier = Modifier
-//            .padding(horizontal = 16.dp)
-//            .align(Alignment.CenterEnd),
-//            text = item.id.toString(),
-//            fontSize = 16.sp)
+        }
+
     }
 
 }
