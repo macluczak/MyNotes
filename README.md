@@ -36,13 +36,7 @@
   </tr> 
 </table>
 
-<table>
-  <tr>
-    <td> <img src="https://user-images.githubusercontent.com/77066408/182186968-10c359ed-5f88-45e0-8176-35832202ac87.gif"  alt="1" ></td>
-    <td> <img src="https://user-images.githubusercontent.com/77066408/182185580-513bed24-2a60-4d95-a2aa-4e04045e192e.gif"  alt="2" ></td>
-     <td> <img src="https://user-images.githubusercontent.com/77066408/182186956-e808fcc6-26ab-4cea-8af1-215be4d8821d.gif"  alt="3" ></td>
-  </tr> 
-</table>
+
 
 
 
