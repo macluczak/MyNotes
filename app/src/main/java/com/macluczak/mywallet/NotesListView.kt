@@ -253,9 +253,6 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
 
     var searchByWord = viewModel.searchWord.observeAsState()
 
-    var notesFiltered = notes.filter {
-        it.title.contains(searchByWord.value?: "")
-    }
 
 
 
@@ -274,10 +271,10 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
             }
         }
 
-        items(notesFiltered.size) { index ->
+        items(notes.size) { index ->
 
-            if(notesFiltered.isNotEmpty()) {
-                NoteItem(item = notesFiltered[index],
+            if(notes.isNotEmpty()) {
+                NoteItem(item = notes[index],
                     viewModel = viewModel,
                     navController = navController)
             }

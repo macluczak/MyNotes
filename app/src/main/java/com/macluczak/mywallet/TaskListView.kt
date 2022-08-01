@@ -92,31 +92,11 @@ fun TaskItem(item: Task, viewModel: MainViewModel, navController: NavController)
             }
 
             Column(modifier = Modifier.align(Alignment.BottomCenter)) {
-//                Row(modifier = Modifier.padding(15.dp, 0.dp, 15.dp, 0.dp)) {
-//                    Column() {
-//                        Text(text = item!!.startDate.dropLast(5),
-//                            style = MaterialTheme.typography.h6)
-//                    }
-//                    Spacer(modifier = Modifier.weight(1f))
-//
-//                    Column() {
-//                        Text(text = item!!.endDate.dropLast(5),
-//                            style = MaterialTheme.typography.h6)
-//
-//                    }
-//
-//
-//                }
+
                 Row(modifier = Modifier.padding(20.dp, 0.dp, 20.dp, 15.dp)) {
                     Text(text = item!!.startDate.dropLast(5), modifier = Modifier.padding(0.dp, 0.dp, 3.dp, 0.dp),
                         style = MaterialTheme.typography.body1, color = HippieBlue400)
-//                    Text( text ="-",
-//                        style = MaterialTheme.typography.body1, color = HippieBlue400)
-//                    Icon(painter = painterResource(id = R.drawable.ic_outline_circle_24),
-//                        "circle",
-//                        modifier =
-//                        Modifier.align(Alignment.CenterVertically),
-//                    tint = HippieBlue400)
+
                     val pathEffect = PathEffect.dashPathEffect(floatArrayOf(25f, 15f), 0f)
                     Canvas(Modifier
                         .weight(1f)
@@ -158,16 +138,13 @@ fun DisplayTasks(tasks: List<Task>, viewModel: MainViewModel, navController: Nav
 
     var searchByWord = viewModel.searchWord.observeAsState()
 
-    var tasksFiltered = tasks.filter {
-        it.title.contains(searchByWord.value ?: "")
-    }
 
     LazyColumn(modifier = Modifier
         .padding(20.dp, 0.dp, 20.dp, 0.dp)) {
 
-        items(tasksFiltered.size) { index ->
-            if (tasksFiltered.isNotEmpty()) {
-                TaskItem(item = tasksFiltered[index],
+        items(tasks.size) { index ->
+            if (tasks.isNotEmpty()) {
+                TaskItem(item = tasks[index],
                     viewModel = viewModel,
                     navController = navController)
             }

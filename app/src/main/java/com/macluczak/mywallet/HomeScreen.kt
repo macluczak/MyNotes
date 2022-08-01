@@ -96,6 +96,13 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
     var searchByWord = viewModel.searchWord.observeAsState()
 
+    var noteFiltered = listNote.filter {
+        it.title.contains(searchByWord.value ?: "")
+    }
+    var tasksFiltered = listTask.filter {
+        it.title.contains(searchByWord.value ?: "")
+    }
+
     Card(modifier = Modifier
         .fillMaxSize()
         .clip(RoundedCornerShape(25.dp, 0.dp, 0.dp, 0.dp))
@@ -123,7 +130,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
 
 
-if(listNote.isNotEmpty() || listTask.isNotEmpty()){
+if(noteFiltered.isNotEmpty() || tasksFiltered.isNotEmpty()){
 
             LazyColumn() {
                 item{
@@ -149,8 +156,8 @@ if(listNote.isNotEmpty() || listTask.isNotEmpty()){
 
 
                 item {
-                    if(listNote.isNotEmpty()) {
-                        DisplayNotes(notes = listNote,
+                    if(noteFiltered.isNotEmpty()) {
+                        DisplayNotes(notes = noteFiltered,
                             viewModel = viewModel,
                             navController = navController)
                     }else{
@@ -173,9 +180,6 @@ if(listNote.isNotEmpty() || listTask.isNotEmpty()){
                     }
                 }
 
-                    var tasksFiltered = listTask.filter {
-                        it.title.contains(searchByWord.value ?: "")
-                    }
 
 
                         if(tasksFiltered.isNotEmpty()) {
