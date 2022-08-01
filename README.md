@@ -1,6 +1,14 @@
 # MyNotes
 
-*work in progress*
+
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182188929-4e9d02ee-f842-44db-9dd4-29280fc72cca.gif" width="300" /></td>
+    <td> An application for creating, storing Notes and Tasks, made in the mvvm architecture using the Room database. UI views were done fully using the Android Jetpack Compose framework</td>
+     
+  </tr> 
+</table>
+
 
 <table>
   <tr>
