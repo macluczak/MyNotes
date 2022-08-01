@@ -210,7 +210,9 @@ fun NoteItem(item: Note, viewModel: MainViewModel, navController: NavController,
                     color = Color.White
                 )
             }
-            Box(modifier = Modifier.padding(5.dp, 5.dp, 10.dp, 10.dp).align(Alignment.BottomEnd)) {
+            Box(modifier = Modifier
+                .padding(5.dp, 5.dp, 10.dp, 10.dp)
+                .align(Alignment.BottomEnd)) {
                 Icon(painter = painterResource(id = if (item.fav) R.drawable.ic_baseline_favorite_24
                 else R.drawable.ic_baseline_favorite_uncheck_24), tint = Color.White,
                     contentDescription = "fav", modifier = Modifier
@@ -254,6 +256,7 @@ fun DisplayNotes(notes: List<Note>, viewModel: MainViewModel, navController: Nav
     var notesFiltered = notes.filter {
         it.title.contains(searchByWord.value?: "")
     }
+
 
 
 

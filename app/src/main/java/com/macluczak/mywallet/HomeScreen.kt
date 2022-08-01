@@ -104,7 +104,8 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
         elevation = 7.dp
     ) {
 
-        Column() {
+
+        Column {
 
             val editNoteText = remember { mutableStateOf("Edit") }
 
@@ -122,6 +123,7 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
 
 
+if(listNote.isNotEmpty() || listTask.isNotEmpty()){
 
             LazyColumn() {
                 item{
@@ -147,9 +149,13 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
 
                 item {
-                    DisplayNotes(notes = listNote,
-                        viewModel = viewModel,
-                        navController = navController)
+                    if(listNote.isNotEmpty()) {
+                        DisplayNotes(notes = listNote,
+                            viewModel = viewModel,
+                            navController = navController)
+                    }else{
+                    animAstro()
+                    }
                 }
 
                 item {
@@ -171,13 +177,19 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
                         it.title.contains(searchByWord.value ?: "")
                     }
 
-                        items(tasksFiltered.size) { index ->
-                            if (tasksFiltered.isNotEmpty()) {
-                                TaskItem(item = tasksFiltered[index],
-                                    viewModel = viewModel,
-                                    navController = navController)
-                            }
 
+                        if(tasksFiltered.isNotEmpty()) {
+
+                            items(tasksFiltered.size) { index ->
+                                if (tasksFiltered.isNotEmpty()) {
+                                    TaskItem(item = tasksFiltered[index],
+                                        viewModel = viewModel,
+                                        navController = navController)
+                                }
+
+                            }
+                        }else{
+                            item{animAstro()}
                         }
                         item {
                             Box(modifier = Modifier
@@ -189,6 +201,9 @@ fun CardViewHome(viewModel: MainViewModel, navController: NavController) {
 
                         }
 
+            }}
+            else{
+                animStart()
             }
 
         }

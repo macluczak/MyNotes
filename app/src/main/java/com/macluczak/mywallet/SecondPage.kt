@@ -43,7 +43,7 @@ fun SecondPage(viewModel: MainViewModel, navController: NavController){
 
     Surface(modifier = Modifier.fillMaxSize(), color = HippieBlue50){
 
-        Column() {
+        Column {
 
             Surface(modifier = Modifier,
                 elevation = 4.dp, color = HippieBlue100) {
@@ -74,29 +74,36 @@ fun SecondPage(viewModel: MainViewModel, navController: NavController){
 
             }
 
-            LazyColumn() {
-                item{
-                    Spacer(modifier = Modifier.height(10.dp).fillMaxWidth())
-                }
-                items(taskfiltered!!.size) { index ->
+            if( taskfiltered!!.isNotEmpty()) {
 
-                    if (taskfiltered.isNotEmpty()) {
-                        TaskItem(item = taskfiltered[index],
-                            viewModel = viewModel,
-                            navController = navController)
+                LazyColumn() {
+                    item {
+                        Spacer(modifier = Modifier
+                            .height(10.dp)
+                            .fillMaxWidth())
+                    }
+                    items(taskfiltered!!.size) { index ->
+
+                        if (taskfiltered.isNotEmpty()) {
+                            TaskItem(item = taskfiltered[index],
+                                viewModel = viewModel,
+                                navController = navController)
+
+                        }
 
                     }
+                    item {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(85.dp)
+                        ) {
 
-                }
-                item {
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(85.dp)
-                    ) {
+                        }
 
                     }
-
                 }
+            } else{
+                animEmpty()
             }
         }
     }

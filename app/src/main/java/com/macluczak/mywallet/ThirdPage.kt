@@ -32,7 +32,9 @@ fun ThirdPage(viewModel: MainViewModel, navController: NavController){
         val notes = viewModel.getAllNotes().observeAsState().value
 
 
-        Column(Modifier.background(HippieBlue50)) {
+        Column(Modifier
+            .background(HippieBlue50)
+            .fillMaxSize()) {
 
             Surface(modifier = Modifier,
                 elevation = 4.dp, color = HippieBlue100) {
@@ -55,28 +57,36 @@ fun ThirdPage(viewModel: MainViewModel, navController: NavController){
 
             }
 
+            if(notes!!.isNotEmpty()) {
 
-            LazyColumn() {
-                item{
-                    Spacer(modifier = Modifier.height(10.dp).fillMaxWidth())
-                }
-                items(notes!!.size) { index ->
 
-                    NoteView(item = notes[index],
-                        viewModel = viewModel,
-                        navController = navController,
-                    fullsize = true)
+                LazyColumn() {
+                    item {
+                        Spacer(modifier = Modifier
+                            .height(10.dp)
+                            .fillMaxWidth())
+                    }
+                    items(notes!!.size) { index ->
 
-                }
-                item {
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(85.dp)
-                    ) {
+                        NoteView(item = notes[index],
+                            viewModel = viewModel,
+                            navController = navController,
+                            fullsize = true)
 
                     }
+                    item {
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(85.dp)
+                        ) {
 
+                        }
+
+                    }
                 }
+
+            }else{
+                animEmpty()
             }
         }
 
