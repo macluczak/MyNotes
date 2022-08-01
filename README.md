@@ -27,6 +27,13 @@
   </tr> 
 </table>
 
-
+## Empty States Animation
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182183448-9a11d56c-2cda-4130-a406-f0cf22f9677f.png"  alt="1" ></td>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182183446-f51ee41c-307f-463e-82ed-a850141c8c7c.png"  alt="2" ></td>
+     <td> <img src="https://user-images.githubusercontent.com/77066408/182183439-b80206bb-a2cb-4c21-891f-9eb1431e8448.png"  alt="3" ></td>
+  </tr> 
+</table>
 
 
