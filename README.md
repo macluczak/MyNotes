@@ -10,13 +10,20 @@
   </tr> 
 </table>
 
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182004632-4437e848-f3c5-4598-b54d-7d5d9079f7ab.png"  alt="1" ></td>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182026653-6de81571-c138-4e8d-976c-d654e7fb3b2d.png"  alt="2" ></td>
+     
+  </tr> 
+</table>
+
 
 
 <table>
   <tr>
-    <td> <img src="https://user-images.githubusercontent.com/77066408/182004632-4437e848-f3c5-4598-b54d-7d5d9079f7ab.png"  alt="1" ></td>
-    <td> <img src="https://user-images.githubusercontent.com/77066408/182004533-025421bf-f57f-4ad8-a284-1ed10c4c80dd.png"  alt="2" ></td>
-    <td> <img src="https://user-images.githubusercontent.com/77066408/181376437-e8587127-f07c-43d9-ba79-f264a7c8ce01.png"  alt="3" ></td>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/182004533-025421bf-f57f-4ad8-a284-1ed10c4c80dd.png"  alt="1" ></td>
+    <td> <img src="https://user-images.githubusercontent.com/77066408/181376437-e8587127-f07c-43d9-ba79-f264a7c8ce01.png"  alt="2" ></td>
   </tr> 
 </table>
 
