@@ -1,5 +1,7 @@
 # MyNotes
 
+## Introduction
+
 
 <table>
   <tr>
@@ -9,6 +11,7 @@
   </tr> 
 </table>
 
+## Application Screens: Home, Create Task/Note
 
 <table>
   <tr>
@@ -17,6 +20,8 @@
      <td> <img src="https://user-images.githubusercontent.com/77066408/181925581-b6bc6229-bb31-4359-ba81-7f2b6742b8ae.png"  alt="3" ></td>
   </tr> 
 </table>
+
+## Task Pages View with filters and Task Details View
 
 <table>
   <tr>
@@ -27,7 +32,7 @@
 </table>
 
 
-
+## Notes Pages View and Note Details View
 <table>
   <tr>
     <td> <img src="https://user-images.githubusercontent.com/77066408/182004533-025421bf-f57f-4ad8-a284-1ed10c4c80dd.png"  alt="1" ></td>
