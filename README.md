@@ -1,7 +1,7 @@
 # MyNotes
 
 #### Android Jetpack Compose app (MVVM architecture) with Room database
- -----------------
+ --------------------
 ## Introduction
 
 
